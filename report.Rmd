@@ -1,12 +1,13 @@
 ---
-title: "Impact of interventions"
+title: "Adoption and impact of non-pharmaceutical interventions for COVID-19"
 author: Sam Abbott
 date: "2020-02-02"
-output: word_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE,
+                      cache = FALSE, 
+                      fig.path = "figures/")
 ```
 
 ## Package
@@ -23,22 +24,16 @@ p_load("tibble")
 p_load("ggplot2")
 p_load("cowplot")
 p_load("lubridate")
+p_load("readr")
+
+## Load functions
+source("functions/get_who_cases.R")
 ```
 
-## Get linelist
-
-```{r download-data, cache = TRUE}
-gsheets_url <- paste0("https://docs.google.com/spreadsheets/d/1itaohdPiAeniCXNlntNztZ_oRvjh0HsGuJXUJWET008")
-url <- paste0(gsheets_url, "/export?format=csv&gid=0")
-
-linelist <- data.table::fread(url)
-```
-
-
-## Extract variables of potential interest 
+## Extract variables of potential interest from linelist
 
 ```{r extract-variables}
-extracted_linelist <- linelist %>%
+extracted_linelist <- readr::read_csv("raw-data/linelist.csv") %>%
   dplyr::as_tibble() %>%
   dplyr::select(country, city, province, date_confirmation, travel_history_location) %>%
   dplyr::mutate(import_status = dplyr::if_else(is.na(travel_history_location) |
@@ -67,31 +62,6 @@ prop_cases_imported <- extracted_linelist %>%
 * Based on linelist data and WH0 sit reps
 
 ```{r}
-get_who_cases <- function(country = NULL, daily = FALSE) {
-
-
-  who_cases <- data.table::fread("https://raw.githubusercontent.com/eebrown/data2019nCoV/master/data-raw/WHO_SR.csv")
-
-
-  if (!is.null(country)) {
-    who_cases <- who_cases[, c("Date", country), with = FALSE]
-    colnames(who_cases) <- c("date", "cases")
-
-  }
-
-  if (daily) {
-    cols <- colnames(who_cases)
-    cols <- cols[!colnames(who_cases) %in% c("Date", "date", "SituationReport")]
-    safe_diff <- purrr::safely(diff)
-
-    who_cases <- dplyr::mutate_at(who_cases,
-                                  .vars = cols,
-                                  ~ . - dplyr::lag(., default = 0))
-  }
-
-  return(who_cases)
-}
-
 countries <- prop_cases_imported$country
 names(countries) <- prop_cases_imported$country
 
@@ -100,6 +70,7 @@ countries["United Arab Emirates"] <- "UnitedArabEmirates"
 countries["United States"] <- "UnitedStatesofAmerica"
 countries["Vietnam"] <- "VietNam"
 countries["United Kingdom"] <- "UnitedKingdom"
+countries <- countries[!is.na(countries)]
 
 country_cases <- countries %>% 
   purrr::map_dfr(~ get_who_cases(., daily = TRUE), .id = "country")
@@ -122,7 +93,7 @@ tab_cases_imported <- prop_cases_imported_who %>%
   dplyr::select(Country = country, Cases = who_total, `Fraction imported (linelist only)` = frac_imported,
                 `Fraction imported (WHO sit reps)` = who_frac_imported)
 
-saveRDS(tab_cases_imported, "cases_imported.rds")
+saveRDS(tab_cases_imported, "output-data/cases_imported.rds")
 
 knitr::kable(tab_cases_imported)
 ```
@@ -133,52 +104,7 @@ knitr::kable(tab_cases_imported)
 
 * Wrangle for countries of interest (with at least 40 cases)
 ```{r}
-who_cases <- get_who_cases() %>% 
-  tibble::as_tibble() %>% 
-  dplyr::mutate(date = as.Date(Date)) %>% 
-  dplyr::select_if(~is.numeric(.) | lubridate::is.Date(.))
-
-update_country_names <- function(countries) {
-  countries %>% 
-    stringr::str_replace_all("RepublicofKorea", "Republic of Korea") %>% 
-    stringr::str_replace_all("UnitedStatesofAmerica", "United States") %>% 
-    stringr::str_replace_all("China-HongKongSAR", "Hong Kong") %>% 
-    stringr::str_replace_all("China-Hubei", "Wuhan") %>% 
-    stringr::str_replace_all("China-Taiwan", "Taiwan")
-}
-
-countries_of_interest <- who_cases %>% 
-  dplyr::filter(SituationReport == max(SituationReport)) %>% 
-  dplyr::select(-SituationReport, -date) %>% 
-  tidyr::gather(key = "country", value = "cases") %>%
-  dplyr::filter(country %in% c("RepublicofKorea", "UnitedStatesofAmerica",
-                               "Italy", "Iran", "Japan", "Singapore",
-                               "Thailand", "China-Taiwan", "China-HongKongSAR", "China-Hubei")) %>% 
-  dplyr::mutate(country = country %>% 
-                  update_country_names())
-
-cum_cases_in_countries <- who_cases %>% 
-  dplyr::select(-SituationReport) %>% 
-  tidyr::gather(key = "country", value = "cases", -date) %>% 
-  dplyr::mutate(country = country %>% 
-                  update_country_names()) %>% 
-  dplyr::filter(country %in% countries_of_interest$country)
-
-
-
-
-wuhan <- readr::read_csv("wuhan_20200303.csv") %>% 
-  dplyr::rename(cases = total_case) %>% 
-  dplyr::add_row(date = as.Date("2020-01-14"), cases = 0) %>% 
-  dplyr::mutate(country = "Wuhan") %>% 
-  dplyr::select(date, country, cases) %>% 
-  dplyr::arrange(date) 
-
-cum_cases_in_countries <- cum_cases_in_countries %>% 
-  dplyr::filter(!country %in% "Wuhan") %>% 
-  dplyr::bind_rows(wuhan) %>% 
-  dplyr::mutate(country = country %>% 
-                  factor(levels = countries_of_interest$country))
+cum_cases_in_countries <- readr::read_csv("raw-data/countries_of_interest_counts.csv")
 ```
 
 
@@ -231,7 +157,7 @@ cases_in_countries %>%
 * Plot overall interventions
 
 ```{r}
-interventions <- readr::read_csv("intervention_dates.csv") %>% 
+interventions <- readr::read_csv("raw-data/intervention_dates.csv") %>% 
   dplyr::select(date = date_intervention, intervention, country, social_distancing) %>% 
   dplyr::mutate(date = date %>% 
                   stringr::str_replace_all("/", "-")) %>% 
@@ -268,7 +194,7 @@ summarise_interventions <- interventions %>%
 
 
 
-saveRDS(summarise_interventions, "intervention_freq.rds")
+saveRDS(summarise_interventions, "output-data/intervention_freq.rds")
 
 knitr::kable(summarise_interventions)
 ```
@@ -280,7 +206,7 @@ social_interventions <- interventions %>%
   dplyr::filter(social_distancing %in% "yes") %>% 
   summarise_ints()
 
-saveRDS(social_interventions, "social_interventions.rds")
+saveRDS(social_interventions, "output-data/social_interventions.rds")
 
 knitr::kable(social_interventions)
 ```
@@ -292,7 +218,7 @@ non_social_interventions <- interventions %>%
   dplyr::filter(social_distancing %in% "no") %>% 
   summarise_ints()
 
-saveRDS(non_social_interventions, "non_social_interventions.rds")
+saveRDS(non_social_interventions, "output-data/non_social_interventions.rds")
 
 knitr::kable(non_social_interventions)
 ```
