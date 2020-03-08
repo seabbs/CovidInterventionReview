@@ -4,31 +4,11 @@ Package
 Extract variables of potential interest from linelist
 -----------------------------------------------------
 
-    extracted_linelist <- readr::read_csv("raw-data/linelist.csv") %>%
+    extracted_linelist <- suppressMessages(readr::read_csv("raw-data/linelist.csv")) %>%
       dplyr::as_tibble() %>%
       dplyr::select(country, city, province, date_confirmation, travel_history_location) %>%
       dplyr::mutate(import_status = dplyr::if_else(is.na(travel_history_location) |
                                                      travel_history_location == "", "local", "imported"))
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   .default = col_character(),
-    ##   ID = col_double(),
-    ##   `wuhan(0)_not_wuhan(1)` = col_double(),
-    ##   latitude = col_double(),
-    ##   longitude = col_double(),
-    ##   data_moderator_initials = col_logical(),
-    ##   V34 = col_logical(),
-    ##   V35 = col_logical(),
-    ##   V36 = col_logical(),
-    ##   V37 = col_logical(),
-    ##   V38 = col_logical(),
-    ##   V39 = col_logical(),
-    ##   V40 = col_logical(),
-    ##   V41 = col_logical()
-    ## )
-
-    ## See spec(...) for full column specifications.
 
     ## Warning: 656 parsing failures.
     ##  row                     col           expected actual                    file
@@ -258,13 +238,15 @@ Plot cases over time
 
 <!-- -->
 
-    cum_cases_in_countries %>% 
+    first_cases <- cum_cases_in_countries %>% 
       dplyr::group_by(country) %>% 
       dplyr::filter(cases > 0) %>% 
       dplyr::filter(cases == min(cases), date == min(date)) %>% 
       dplyr::ungroup() %>% 
       dplyr::arrange(date) %>% 
-      dplyr::select(Country = country, `Date of first case report` = date) %>% 
+      dplyr::select(Country = country, `Date of first case report` = date)
+
+    first_cases %>% 
       knitr::kable()
 
 <table>
@@ -322,7 +304,9 @@ Plot cases over time
         cases = ifelse(country %in% "Japan", 
                        ifelse(date == "2020-02-05", 3, 
                               ifelse(date == "2020-02-06", 2, cases)), cases)
-      )
+      ) %>% 
+      dplyr::mutate(country = country %>% 
+                      factor(levels = first_cases$Country))
 
 Get interventions
 -----------------
@@ -346,7 +330,9 @@ Get interventions
                       stringr::str_replace_all("_", " ") %>% 
                       stringr::str_to_sentence() %>%
                       stringr::str_replace("School restictions", "School restrictions") %>% 
-                      stringr::str_replace("Communciation distancing", "Communication distancing"))
+                      stringr::str_replace("Communciation distancing", "Communication distancing")) %>% 
+          dplyr::filter(!country %in% c("United States", "Thailand", "Iran")) %>% 
+      tidyr::drop_na(intervention)
 
     ## Warning: Missing column names filled in: 'X8' [8]
 
@@ -361,6 +347,42 @@ Get interventions
     ##   ref2 = col_character(),
     ##   X8 = col_character()
     ## )
+
+    c_grepl <- purrr::partial(grepl, ignore.case = TRUE)
+
+    ## Add detail to interventions
+    interventions <- interventions %>% 
+      dplyr::mutate(intervention_cat = case_when(
+        c_grepl("School", intervention) | c_grepl("University", intervention) ~ "Education",
+        c_grepl("Mass gathering", intervention) ~ "Mass gathering",
+        c_grepl("Travel", intervention) | c_grepl("flights", intervention) |
+          c_grepl("Border", intervention) ~ "Travel", 
+        c_grepl("Surveillance", intervention) | c_grepl("Contact tracing", interventions) |
+          c_grepl("Government on alert", intervention) ~ "Surveillance",
+        c_grepl("Quarantine", intervention) ~ "Quarantine",
+        c_grepl("information", intervention) | c_grepl("awareness", intervention) |
+          c_grepl("annoucement", intervention) | grepl("Communication", intervention) ~ "Information",
+        c_grepl("health", intervention) | c_grepl("Enhanced care", intervention) ~ "Healthcare",
+        c_grepl("work", intervention) ~ "Workplace",
+        c_grepl("Lockdown", intervention) ~ "Lockdown",
+        c_grepl("Isolation", intervention) ~ "Isolation",
+        TRUE ~ "Other"
+      ),
+    intervention_scale = case_when(
+      c_grepl("awareness", intervention) | c_grepl("advisory", intervention) ~ "Advice",
+      c_grepl("ban", intervention) ~ "Restriction",
+      c_grepl("closure", intervention) ~ "Closure",
+      c_grepl("surveillance", intervention) | c_grepl("isolation", intervention) |
+        c_grepl("contact tracing", intervention) ~ "Public health",
+      TRUE ~ "Other"
+    )) %>% 
+      dplyr::mutate(country = country %>% 
+                      factor(levels = first_cases$Country))
+
+    ## Warning in c_grepl("Surveillance", intervention) | c_grepl("Contact tracing", :
+    ## longer object length is not a multiple of shorter object length
+
+    readr::write_csv(interventions, "output-data/interventions.csv")
 
     summarise_ints <- function(df) {
       df %>% 
@@ -383,206 +405,202 @@ Get interventions
 
     saveRDS(summarise_interventions, "output-data/intervention_freq.rds")
 
-    knitr::kable(summarise_interventions)
+-   Summarise interventions by category
+
+<!-- -->
+
+    sum_intervention_cats <- interventions %>% 
+      dplyr::group_by(intervention_cat, social_distancing) %>% 
+      dplyr::summarise(interventions = paste(unique(intervention), collapse = ", "))
+
+-   Social categories
+
+<!-- -->
+
+    sum_intervention_cats %>% 
+      dplyr::filter(social_distancing %in% "yes") %>% 
+      dplyr::select(-social_distancing) %>% 
+      knitr::kable()
 
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Intervention</th>
-<th style="text-align: right;">Countries that have implemented</th>
+<th style="text-align: left;">intervention_cat</th>
+<th style="text-align: left;">interventions</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Health screening</td>
-<td style="text-align: right;">5</td>
+<td style="text-align: left;">Education</td>
+<td style="text-align: left;">School closure, University closure, School closure (not related to outbreak), Prevention measures school, School restrictions, [Extension] school and work closure</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">School closure</td>
-<td style="text-align: right;">5</td>
+<td style="text-align: left;">Healthcare</td>
+<td style="text-align: left;">Healthcare restrictions</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Remote working</td>
-<td style="text-align: right;">4</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Travel advisory</td>
-<td style="text-align: right;">4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Government on alert</td>
-<td style="text-align: right;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Lockdown</td>
-<td style="text-align: right;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Quarantine</td>
-<td style="text-align: right;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">School closure (not related to outbreak)</td>
-<td style="text-align: right;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Travel restriction</td>
-<td style="text-align: right;">3</td>
+<td style="text-align: left;">Information</td>
+<td style="text-align: left;">Communication distancing</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Isolation</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: left;">Isolation</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Mandatory quarantine</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: left;">Lockdown</td>
+<td style="text-align: left;">Lockdown</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Mass gathering advisory</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: left;">Mass gathering</td>
+<td style="text-align: left;">Mass gathering advisory, Mass gathering cancellation</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Mass gathering cancellation</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: left;">Other</td>
+<td style="text-align: left;">Social distancing misc, Reduced shop hours, Social event cancellation</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">School restrictions</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: left;">Quarantine</td>
+<td style="text-align: left;">Mandatory quarantine, Quarantine</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Social event cancellation</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Suspending flights</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Travel ban</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">University closure</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Work closure (not related to outbreak)</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[Extension] school and work closure</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Border checks</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Border control</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Communication distancing</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Communication general</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Contact tracing</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Containment to mitigation</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Decontamination</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Enhanced care</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Entry ban</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Government announcement</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Healthcare restrictions</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Mass gathering ban</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Medical surveillance</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Prevention measures school</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Public information</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Raise awareness flights</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Raise awareness healthcare staff</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Raise awareness public</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Reduced shop hours</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Resumption public services</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Social distancing misc</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Strengthening primary care response</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Supply</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">Surveillance</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: left;">Quarantine, Mandatory quarantine, Remote working, Contact tracing, Work closure (not related to outbreak), Lockdown</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Travel</td>
+<td style="text-align: left;">Travel advice, Travel restriction</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Travel advice</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: left;">Workplace</td>
+<td style="text-align: left;">Remote working, Work closure (not related to outbreak)</td>
 </tr>
 </tbody>
 </table>
 
--   Social interventions only
+-   Non-social categories
 
 <!-- -->
 
+    sum_intervention_cats %>% 
+      dplyr::filter(social_distancing %in% "no") %>% 
+      dplyr::select(-social_distancing) %>% 
+      knitr::kable()
+
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">intervention_cat</th>
+<th style="text-align: left;">interventions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Healthcare</td>
+<td style="text-align: left;">Health screening, Enhanced care</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Information</td>
+<td style="text-align: left;">Public information, Communication general, Raise awareness healthcare staff, Raise awareness public</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Other</td>
+<td style="text-align: left;">Containment to mitigation, Supply, Decontamination, Government announcement</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Surveillance</td>
+<td style="text-align: left;">Government on alert, Surveillance, Raise awareness healthcare staff, Raise awareness public, Resumption public services, Medical surveillance, Health screening, Strengthening primary care response, Enhanced care</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Travel</td>
+<td style="text-align: left;">Raise awareness flights, Travel ban, Border control, Travel advice, Suspending flights, Travel advisory, Travel restriction</td>
+</tr>
+</tbody>
+</table>
+
+-   Social scales
+
+<!-- -->
+
+    sum_intervention_scales <- interventions %>% 
+      dplyr::group_by(intervention_scale, social_distancing) %>% 
+      dplyr::summarise(interventions = paste(unique(intervention), collapse = ", "))
+
+    sum_intervention_scales %>% 
+      dplyr::filter(social_distancing %in% "no") %>% 
+      dplyr::select(-social_distancing) %>% 
+      knitr::kable()
+
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">intervention_scale</th>
+<th style="text-align: left;">interventions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Advice</td>
+<td style="text-align: left;">Raise awareness flights, Raise awareness healthcare staff, Raise awareness public, Travel advisory</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other</td>
+<td style="text-align: left;">Containment to mitigation, Government on alert, Public information, Communication general, Border control, Supply, Travel advice, Suspending flights, Resumption public services, Health screening, Travel restriction, Strengthening primary care response, Decontamination, Enhanced care, Government announcement</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Public health</td>
+<td style="text-align: left;">Surveillance, Medical surveillance</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Restriction</td>
+<td style="text-align: left;">Travel ban</td>
+</tr>
+</tbody>
+</table>
+
+-   Non-social scales
+
+<!-- -->
+
+    sum_intervention_scales %>% 
+      dplyr::filter(social_distancing %in% "no") %>% 
+      dplyr::select(-social_distancing) %>% 
+      knitr::kable()
+
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">intervention_scale</th>
+<th style="text-align: left;">interventions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Advice</td>
+<td style="text-align: left;">Raise awareness flights, Raise awareness healthcare staff, Raise awareness public, Travel advisory</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other</td>
+<td style="text-align: left;">Containment to mitigation, Government on alert, Public information, Communication general, Border control, Supply, Travel advice, Suspending flights, Resumption public services, Health screening, Travel restriction, Strengthening primary care response, Decontamination, Enhanced care, Government announcement</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Public health</td>
+<td style="text-align: left;">Surveillance, Medical surveillance</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Restriction</td>
+<td style="text-align: left;">Travel ban</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">* Social intervention</td>
+<td style="text-align: left;">s only</td>
+</tr>
+</tbody>
+</table>
+
     social_interventions <- interventions %>% 
       dplyr::filter(social_distancing %in% "yes") %>% 
-      summarise_ints()
+      summarise_ints() %>% 
+      dplyr::filter(`Countries that have implemented` > 1)
 
     saveRDS(social_interventions, "output-data/social_interventions.rds")
 
@@ -597,35 +615,27 @@ Get interventions
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">School closure</td>
-<td style="text-align: right;">5</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Remote working</td>
-<td style="text-align: right;">4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Lockdown</td>
-<td style="text-align: right;">3</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">Quarantine</td>
 <td style="text-align: right;">3</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;">Remote working</td>
+<td style="text-align: right;">3</td>
+</tr>
 <tr class="odd">
-<td style="text-align: left;">School closure (not related to outbreak)</td>
+<td style="text-align: left;">School closure</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Isolation</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: left;">School closure (not related to outbreak)</td>
+<td style="text-align: right;">3</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Mandatory quarantine</td>
+<td style="text-align: left;">Lockdown</td>
 <td style="text-align: right;">2</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Mass gathering advisory</td>
+<td style="text-align: left;">Mandatory quarantine</td>
 <td style="text-align: right;">2</td>
 </tr>
 <tr class="odd">
@@ -633,60 +643,16 @@ Get interventions
 <td style="text-align: right;">2</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">School restrictions</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">Social event cancellation</td>
 <td style="text-align: right;">2</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">University closure</td>
 <td style="text-align: right;">2</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Work closure (not related to outbreak)</td>
 <td style="text-align: right;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">[Extension] school and work closure</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Communication distancing</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Contact tracing</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Healthcare restrictions</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Mass gathering ban</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Prevention measures school</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Reduced shop hours</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Social distancing misc</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Travel advice</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Travel restriction</td>
-<td style="text-align: right;">1</td>
 </tr>
 </tbody>
 </table>
@@ -697,7 +663,8 @@ Get interventions
 
     non_social_interventions <- interventions %>% 
       dplyr::filter(social_distancing %in% "no") %>% 
-      summarise_ints()
+      summarise_ints() %>% 
+      dplyr::filter(`Countries that have implemented` > 1)
 
     saveRDS(non_social_interventions, "output-data/non_social_interventions.rds")
 
@@ -713,99 +680,11 @@ Get interventions
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Health screening</td>
-<td style="text-align: right;">5</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Travel advisory</td>
 <td style="text-align: right;">4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Government on alert</td>
-<td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Travel restriction</td>
 <td style="text-align: right;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Suspending flights</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Travel ban</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Border checks</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Border control</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Communication general</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Containment to mitigation</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Decontamination</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Enhanced care</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Entry ban</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Government announcement</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Medical surveillance</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Public information</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Raise awareness flights</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Raise awareness healthcare staff</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Raise awareness public</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Resumption public services</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Strengthening primary care response</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Supply</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Surveillance</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Travel advice</td>
-<td style="text-align: right;">1</td>
 </tr>
 </tbody>
 </table>
@@ -814,35 +693,37 @@ Get interventions
 
 <!-- -->
 
-    plot_interventions <- function(intervention_data , n = NULL, scales = "free_y") {
+    plot_interventions <- function(intervention_type , scales = "free_y") {
       plot_df <- cases_in_countries %>% 
       dplyr::left_join(interventions %>% 
-                         dplyr::filter(intervention %in% intervention_data[1:n]),
+                         dplyr::filter(social_distancing %in% intervention_type),
                        by = c("date", "country")) %>% 
       dplyr::group_by(country, date) %>% 
       dplyr::mutate(cases = cases / dplyr::n())
       
       plot_df %>% 
-      ggplot2::ggplot(ggplot2::aes(x = date, y = cases, col= intervention)) +
-      ggplot2::geom_vline(data = tidyr::drop_na(plot_df, intervention),
-                          aes(xintercept = date, col = intervention), size = 1.2) +
+      ggplot2::ggplot(ggplot2::aes(x = date, y = cases, col= intervention_cat)) +
+      ggplot2::geom_vline(data = tidyr::drop_na(plot_df, intervention_cat),
+                          aes(xintercept = date, col = intervention_cat,
+                              linetype = intervention_scale), 
+                          size = 1.2) +
       ggplot2::geom_col(col = NA, alpha = 0.6) +
-      ggplot2::scale_fill_discrete(na.value = "grey") +
+      ggplot2::scale_fill_brewer(palette = "Dark2", na.value = "grey") +
       ggplot2::facet_wrap(~ country, scales = scales, ncol = 1) +
       cowplot::theme_cowplot() +
       labs(x = "Date", y = "Cases") +
-      theme(legend.position = "bottom") +
-      labs(col = "Intervention", fill = NULL)
+      theme(legend.position = "bottom", legend.box="vertical") +
+      labs(col = "Type", fill = NULL, linetype = "Scale")
     }
 
 
-    plot_interventions(social_interventions$Intervention, 12, scales = "free_y")
+    plot_interventions("yes", scales = "free_y")
 
     ## Warning: Removed 8 rows containing missing values (position_stack).
 
 ![](figures/social-all-time-1.png)
 
-    plot_interventions(social_interventions$Intervention, 12, scales = "free")
+    plot_interventions("yes", scales = "free")
 
     ## Warning: Removed 8 rows containing missing values (position_stack).
 
@@ -852,13 +733,13 @@ Get interventions
 
 <!-- -->
 
-    plot_interventions(non_social_interventions$Intervention, 17, scales = "free_y")
+    plot_interventions("no", scales = "free_y")
 
     ## Warning: Removed 8 rows containing missing values (position_stack).
 
 ![](figures/non-social-all-time-1.png)
 
-    plot_interventions(non_social_interventions$Intervention, 17, scales = "free")
+    plot_interventions("no", scales = "free")
 
     ## Warning: Removed 8 rows containing missing values (position_stack).
 

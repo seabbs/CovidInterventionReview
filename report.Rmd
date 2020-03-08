@@ -225,16 +225,62 @@ summarise_interventions <- interventions %>%
 
 
 saveRDS(summarise_interventions, "output-data/intervention_freq.rds")
-
-knitr::kable(summarise_interventions)
 ```
 
+* Summarise interventions by category
+
+```{r}
+sum_intervention_cats <- interventions %>% 
+  dplyr::group_by(intervention_cat, social_distancing) %>% 
+  dplyr::summarise(interventions = paste(unique(intervention), collapse = ", "))
+```
+
+* Social categories
+
+```{r} 
+sum_intervention_cats %>% 
+  dplyr::filter(social_distancing %in% "yes") %>% 
+  dplyr::select(-social_distancing) %>% 
+  knitr::kable()
+```
+
+* Non-social categories
+
+```{r} 
+sum_intervention_cats %>% 
+  dplyr::filter(social_distancing %in% "no") %>% 
+  dplyr::select(-social_distancing) %>% 
+  knitr::kable()
+```
+
+* Social scales
+
+```{r} 
+sum_intervention_scales <- interventions %>% 
+  dplyr::group_by(intervention_scale, social_distancing) %>% 
+  dplyr::summarise(interventions = paste(unique(intervention), collapse = ", "))
+
+sum_intervention_scales %>% 
+  dplyr::filter(social_distancing %in% "no") %>% 
+  dplyr::select(-social_distancing) %>% 
+  knitr::kable()
+```
+
+* Non-social scales
+
+```{r}
+sum_intervention_scales %>% 
+  dplyr::filter(social_distancing %in% "no") %>% 
+  dplyr::select(-social_distancing) %>% 
+  knitr::kable()
+```
 * Social interventions only
 
 ```{r}
 social_interventions <- interventions %>% 
   dplyr::filter(social_distancing %in% "yes") %>% 
-  summarise_ints()
+  summarise_ints() %>% 
+  dplyr::filter(`Countries that have implemented` > 1)
 
 saveRDS(social_interventions, "output-data/social_interventions.rds")
 
@@ -246,12 +292,11 @@ knitr::kable(social_interventions)
 ```{r}
 non_social_interventions <- interventions %>% 
   dplyr::filter(social_distancing %in% "no") %>% 
-  summarise_ints()
+  summarise_ints() %>% 
+  dplyr::filter(`Countries that have implemented` > 1)
 
 saveRDS(non_social_interventions, "output-data/non_social_interventions.rds")
 
-non_social_interventions %>% 
-  dplyr:filter()
 knitr::kable(non_social_interventions)
 ```
 
