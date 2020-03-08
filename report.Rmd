@@ -113,13 +113,15 @@ cum_cases_in_countries <- readr::read_csv("raw-data/countries_of_interest_counts
 * Get date of first report
 
 ```{r}
-cum_cases_in_countries %>% 
+first_cases <- cum_cases_in_countries %>% 
   dplyr::group_by(country) %>% 
   dplyr::filter(cases > 0) %>% 
   dplyr::filter(cases == min(cases), date == min(date)) %>% 
   dplyr::ungroup() %>% 
   dplyr::arrange(date) %>% 
-  dplyr::select(Country = country, `Date of first case report` = date) %>% 
+  dplyr::select(Country = country, `Date of first case report` = date)
+
+first_cases %>% 
   knitr::kable()
 ```
 
@@ -138,7 +140,9 @@ cases_in_countries <- cases_in_countries %>%
     cases = ifelse(country %in% "Japan", 
                    ifelse(date == "2020-02-05", 3, 
                           ifelse(date == "2020-02-06", 2, cases)), cases)
-  )
+  ) %>% 
+  dplyr::mutate(country = country %>% 
+                  factor(levels = first_cases$Country))
 ```
 
 
@@ -163,8 +167,43 @@ interventions <- readr::read_csv("raw-data/intervention_dates.csv") %>%
                   stringr::str_replace_all("_", " ") %>% 
                   stringr::str_to_sentence() %>%
                   stringr::str_replace("School restictions", "School restrictions") %>% 
-                  stringr::str_replace("Communciation distancing", "Communication distancing"))
+                  stringr::str_replace("Communciation distancing", "Communication distancing")) %>% 
+      dplyr::filter(!country %in% c("United States", "Thailand", "Iran")) %>% 
+  tidyr::drop_na(intervention)
+  
 
+c_grepl <- purrr::partial(grepl, ignore.case = TRUE)
+
+## Add detail to interventions
+interventions <- interventions %>% 
+  dplyr::mutate(intervention_cat = case_when(
+    c_grepl("School", intervention) | c_grepl("University", intervention) ~ "Education",
+    c_grepl("Mass gathering", intervention) ~ "Mass gathering",
+    c_grepl("Travel", intervention) | c_grepl("flights", intervention) |
+      c_grepl("Border", intervention) ~ "Travel", 
+    c_grepl("Surveillance", intervention) | c_grepl("Contact tracing", interventions) |
+      c_grepl("Government on alert", intervention) ~ "Surveillance",
+    c_grepl("Quarantine", intervention) ~ "Quarantine",
+    c_grepl("information", intervention) | c_grepl("awareness", intervention) |
+      c_grepl("annoucement", intervention) | grepl("Communication", intervention) ~ "Information",
+    c_grepl("health", intervention) | c_grepl("Enhanced care", intervention) ~ "Healthcare",
+    c_grepl("work", intervention) ~ "Workplace",
+    c_grepl("Lockdown", intervention) ~ "Lockdown",
+    c_grepl("Isolation", intervention) ~ "Isolation",
+    TRUE ~ "Other"
+  ),
+intervention_scale = case_when(
+  c_grepl("awareness", intervention) | c_grepl("advisory", intervention) ~ "Advice",
+  c_grepl("ban", intervention) ~ "Restriction",
+  c_grepl("closure", intervention) ~ "Closure",
+  c_grepl("surveillance", intervention) | c_grepl("isolation", intervention) |
+    c_grepl("contact tracing", intervention) ~ "Public health",
+  TRUE ~ "Other"
+)) %>% 
+  dplyr::mutate(country = country %>% 
+                  factor(levels = first_cases$Country))
+
+readr::write_csv(interventions, "output-data/interventions.csv")
 
 summarise_ints <- function(df) {
   df %>% 
@@ -211,39 +250,43 @@ non_social_interventions <- interventions %>%
 
 saveRDS(non_social_interventions, "output-data/non_social_interventions.rds")
 
+non_social_interventions %>% 
+  dplyr:filter()
 knitr::kable(non_social_interventions)
 ```
 
 * Plot social interventions
 
 ```{r social-all-time, fig.height = 12, fig.width = 12, dpi = 320}
-plot_interventions <- function(intervention_data , n = NULL, scales = "free_y") {
+plot_interventions <- function(intervention_type , scales = "free_y") {
   plot_df <- cases_in_countries %>% 
   dplyr::left_join(interventions %>% 
-                     dplyr::filter(intervention %in% intervention_data[1:n]),
+                     dplyr::filter(social_distancing %in% intervention_type),
                    by = c("date", "country")) %>% 
   dplyr::group_by(country, date) %>% 
   dplyr::mutate(cases = cases / dplyr::n())
   
   plot_df %>% 
-  ggplot2::ggplot(ggplot2::aes(x = date, y = cases, col= intervention)) +
-  ggplot2::geom_vline(data = tidyr::drop_na(plot_df, intervention),
-                      aes(xintercept = date, col = intervention), size = 1.2) +
+  ggplot2::ggplot(ggplot2::aes(x = date, y = cases, col= intervention_cat)) +
+  ggplot2::geom_vline(data = tidyr::drop_na(plot_df, intervention_cat),
+                      aes(xintercept = date, col = intervention_cat,
+                          linetype = intervention_scale), 
+                      size = 1.2) +
   ggplot2::geom_col(col = NA, alpha = 0.6) +
-  ggplot2::scale_fill_discrete(na.value = "grey") +
+  ggplot2::scale_fill_brewer(palette = "Dark2", na.value = "grey") +
   ggplot2::facet_wrap(~ country, scales = scales, ncol = 1) +
   cowplot::theme_cowplot() +
   labs(x = "Date", y = "Cases") +
-  theme(legend.position = "bottom") +
-  labs(col = "Intervention", fill = NULL)
+  theme(legend.position = "bottom", legend.box="vertical") +
+  labs(col = "Type", fill = NULL, linetype = "Scale")
 }
 
 
-plot_interventions(social_interventions$Intervention, 12, scales = "free_y")
+plot_interventions("yes", scales = "free_y")
 ```
 
 ```{r social-norm-time, fig.height = 12, fig.width = 12, dpi = 320}
-plot_interventions(social_interventions$Intervention, 12, scales = "free")
+plot_interventions("yes", scales = "free")
 ```
 
 
@@ -251,9 +294,9 @@ plot_interventions(social_interventions$Intervention, 12, scales = "free")
 * Plot non-social interventions
 
 ```{r non-social-all-time, fig.height = 12, fig.width = 12, dpi = 320}
-plot_interventions(non_social_interventions$Intervention, 17, scales = "free_y")
+plot_interventions("no", scales = "free_y")
 ```
 
 ```{r non-social-norm-time, fig.height = 12, fig.width = 12, dpi = 320}
-plot_interventions(non_social_interventions$Intervention, 17, scales = "free")
+plot_interventions("no", scales = "free")
 ```
