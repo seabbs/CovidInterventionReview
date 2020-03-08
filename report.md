@@ -4,6 +4,12 @@ Package
 Extract variables of potential interest from linelist
 -----------------------------------------------------
 
+    extracted_linelist <- readr::read_csv("raw-data/linelist.csv") %>%
+      dplyr::as_tibble() %>%
+      dplyr::select(country, city, province, date_confirmation, travel_history_location) %>%
+      dplyr::mutate(import_status = dplyr::if_else(is.na(travel_history_location) |
+                                                     travel_history_location == "", "local", "imported"))
+
     ## Parsed with column specification:
     ## cols(
     ##   .default = col_character(),
@@ -34,30 +40,63 @@ Extract variables of potential interest from linelist
     ## .... ....................... .................. ...... .......................
     ## See problems(...) for more details.
 
-    ## # A tibble: 14,619 x 6
-    ##    country city       province date_confirmation travel_history_l… import_status
-    ##    <chr>   <chr>      <chr>    <chr>             <chr>             <chr>        
-    ##  1 China   Chaohu Ci… Anhui    22.01.2020        Wuhan             imported     
-    ##  2 China   Baohe Dis… Anhui    23.01.2020        Luzhou Hunan, vi… imported     
-    ##  3 China   High-Tech… Anhui    23.01.2020        Yinzhou Hunan, v… imported     
-    ##  4 China   High-Tech… Anhui    23.01.2020        <NA>              local        
-    ##  5 China   Feidong C… Anhui    23.01.2020        Wuhan             imported     
-    ##  6 China   Lu'an City Anhui    24.01.2020        <NA>              local        
-    ##  7 China   Fuyang Ci… Anhui    22.01.2020        Wuhan             imported     
-    ##  8 China   Huaibei C… Anhui    25.01.2020        Wuhan             imported     
-    ##  9 China   Huainan C… Anhui    26.01.2020        Wuhan             imported     
-    ## 10 China   Hefei City Anhui    23.01.2020        Wuhan             imported     
-    ## # … with 14,609 more rows
-
 Estimate fraction that are imported
 -----------------------------------
 
 -   Based on linelist data alone. Only countries with at least 20 total
     cases present are shown.
 
+<!-- -->
+
+    ## Based on linelist data
+    prop_cases_imported <- extracted_linelist %>%
+      dplyr::count(country, import_status) %>%
+      tidyr::spread(key = "import_status", value = "n") %>%
+      dplyr::mutate_at(.vars = c("local", "imported"), ~ replace(., is.na(.), 0)) %>%
+      dplyr::mutate(linelist_total = imported + local,
+                    frac_imported = round(imported / linelist_total, 2)) %>%
+      dplyr::filter(linelist_total >= 15, !country %in% c("", "China")) %>%
+      dplyr::arrange(desc(frac_imported))
+
 -   Based on linelist data and WH0 sit reps
 
+<!-- -->
+
+    countries <- prop_cases_imported$country
+    names(countries) <- prop_cases_imported$country
+
+    countries["South Korea"] <- "RepublicofKorea"
+    countries["United Arab Emirates"] <- "UnitedArabEmirates"
+    countries["United States"] <- "UnitedStatesofAmerica"
+    countries["Vietnam"] <- "VietNam"
+    countries["United Kingdom"] <- "UnitedKingdom"
+    countries <- countries[!is.na(countries)]
+
+    country_cases <- countries %>% 
+      purrr::map_dfr(~ get_who_cases(., daily = TRUE), .id = "country")
+
+    total_cases <- country_cases %>% 
+      dplyr::count(country, wt = cases) %>% 
+      dplyr::rename(who_total = n)
+
+    prop_cases_imported_who <- prop_cases_imported %>% 
+      dplyr::full_join(total_cases, by = "country") %>% 
+      dplyr::mutate(who_frac_imported = round(imported / who_total, 2)) %>% 
+      dplyr::arrange(desc(who_frac_imported)) %>% 
+      ## Drop USA and thailand
+      dplyr::filter(!country %in% c("United States", "Thailand", "Iran"))
+
 -   Summarise and report
+
+<!-- -->
+
+    tab_cases_imported <- prop_cases_imported_who %>% 
+      dplyr::select(Country = country, Cases = who_total, `Fraction imported (linelist only)` = frac_imported,
+                    `Fraction imported (WHO sit reps)` = who_frac_imported)
+
+    saveRDS(tab_cases_imported, "output-data/cases_imported.rds")
+
+    knitr::kable(tab_cases_imported)
 
 <table>
 <thead>
@@ -71,9 +110,9 @@ Estimate fraction that are imported
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Vietnam</td>
-<td style="text-align: right;">16</td>
+<td style="text-align: right;">17</td>
 <td style="text-align: right;">0.69</td>
-<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.65</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Kuwait</td>
@@ -82,132 +121,114 @@ Estimate fraction that are imported
 <td style="text-align: right;">0.64</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Canada</td>
-<td style="text-align: right;">30</td>
-<td style="text-align: right;">0.75</td>
-<td style="text-align: right;">0.50</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">Bahrain</td>
 <td style="text-align: right;">49</td>
 <td style="text-align: right;">1.00</td>
 <td style="text-align: right;">0.41</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Netherlands</td>
-<td style="text-align: right;">38</td>
-<td style="text-align: right;">0.67</td>
-<td style="text-align: right;">0.32</td>
-</tr>
 <tr class="even">
-<td style="text-align: left;">Thailand</td>
-<td style="text-align: right;">47</td>
-<td style="text-align: right;">0.34</td>
-<td style="text-align: right;">0.30</td>
+<td style="text-align: left;">Canada</td>
+<td style="text-align: right;">51</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">0.29</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Singapore</td>
-<td style="text-align: right;">110</td>
+<td style="text-align: right;">130</td>
 <td style="text-align: right;">0.34</td>
-<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.25</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">United Arab Emirates</td>
-<td style="text-align: right;">27</td>
-<td style="text-align: right;">0.35</td>
-<td style="text-align: right;">0.26</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">Australia</td>
-<td style="text-align: right;">66</td>
+<td style="text-align: right;">62</td>
 <td style="text-align: right;">0.88</td>
-<td style="text-align: right;">0.23</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Malaysia</td>
-<td style="text-align: right;">50</td>
-<td style="text-align: right;">0.65</td>
-<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.24</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Iraq</td>
-<td style="text-align: right;">36</td>
+<td style="text-align: right;">44</td>
 <td style="text-align: right;">0.44</td>
-<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.18</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Japan</td>
-<td style="text-align: right;">317</td>
-<td style="text-align: right;">0.07</td>
-<td style="text-align: right;">0.17</td>
+<td style="text-align: left;">United Arab Emirates</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">0.16</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">United States</td>
-<td style="text-align: right;">129</td>
-<td style="text-align: right;">0.50</td>
-<td style="text-align: right;">0.16</td>
+<td style="text-align: left;">Malaysia</td>
+<td style="text-align: right;">83</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">0.13</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">India</td>
-<td style="text-align: right;">29</td>
+<td style="text-align: right;">31</td>
 <td style="text-align: right;">0.14</td>
-<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">0.13</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Spain</td>
-<td style="text-align: right;">198</td>
-<td style="text-align: right;">0.44</td>
-<td style="text-align: right;">0.12</td>
+<td style="text-align: left;">Japan</td>
+<td style="text-align: right;">408</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.13</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">Netherlands</td>
+<td style="text-align: right;">128</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.09</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">United Kingdom</td>
-<td style="text-align: right;">89</td>
+<td style="text-align: right;">167</td>
 <td style="text-align: right;">0.59</td>
-<td style="text-align: right;">0.11</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Germany</td>
-<td style="text-align: right;">262</td>
-<td style="text-align: right;">0.32</td>
-<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.06</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">Spain</td>
+<td style="text-align: right;">374</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.06</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">Norway</td>
-<td style="text-align: right;">56</td>
+<td style="text-align: right;">113</td>
 <td style="text-align: right;">0.25</td>
-<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Germany</td>
+<td style="text-align: right;">639</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">0.03</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">France</td>
-<td style="text-align: right;">282</td>
+<td style="text-align: right;">613</td>
 <td style="text-align: right;">0.20</td>
-<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.01</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Italy</td>
-<td style="text-align: right;">3089</td>
+<td style="text-align: right;">4636</td>
 <td style="text-align: right;">0.02</td>
 <td style="text-align: right;">0.00</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">South Korea</td>
-<td style="text-align: right;">5766</td>
+<td style="text-align: right;">6767</td>
 <td style="text-align: right;">0.02</td>
 <td style="text-align: right;">0.00</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Austria</td>
-<td style="text-align: right;">37</td>
+<td style="text-align: right;">66</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: right;">0.00</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Iran</td>
-<td style="text-align: right;">2922</td>
-<td style="text-align: right;">0.00</td>
-<td style="text-align: right;">0.00</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">0.58</td>
@@ -223,6 +244,9 @@ Plot cases over time
 
 <!-- -->
 
+    cum_cases_in_countries <- readr::read_csv("raw-data/countries_of_interest_counts.csv") %>% 
+        dplyr::filter(!country %in% c("United States", "Thailand", "Iran"))
+
     ## Parsed with column specification:
     ## cols(
     ##   date = col_date(format = ""),
@@ -231,6 +255,17 @@ Plot cases over time
     ## )
 
 -   Get date of first report
+
+<!-- -->
+
+    cum_cases_in_countries %>% 
+      dplyr::group_by(country) %>% 
+      dplyr::filter(cases > 0) %>% 
+      dplyr::filter(cases == min(cases), date == min(date)) %>% 
+      dplyr::ungroup() %>% 
+      dplyr::arrange(date) %>% 
+      dplyr::select(Country = country, `Date of first case report` = date) %>% 
+      knitr::kable()
 
 <table>
 <thead>
@@ -253,16 +288,8 @@ Plot cases over time
 <td style="text-align: left;">2020-01-20</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Thailand</td>
-<td style="text-align: left;">2020-01-20</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">Taiwan</td>
 <td style="text-align: left;">2020-01-21</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">United States</td>
-<td style="text-align: left;">2020-01-23</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Hong Kong</td>
@@ -276,22 +303,26 @@ Plot cases over time
 <td style="text-align: left;">Italy</td>
 <td style="text-align: left;">2020-01-31</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Iran</td>
-<td style="text-align: left;">2020-02-20</td>
-</tr>
 </tbody>
 </table>
 
 -   Get case counts
 
--   Plot curves in countries of interest
-
 <!-- -->
 
-    ## Warning: Removed 11 rows containing missing values (position_stack).
+    cases_in_countries <- cum_cases_in_countries %>% 
+      dplyr::group_by(country) %>% 
+      ## Cumulative?
+      dplyr::mutate(cases = cases - dplyr::lag(cases)) %>% 
+      dplyr::ungroup()
 
-![](figures/unnamed-chunk-6-1.png)
+    cases_in_countries <- cases_in_countries %>% 
+      dplyr::filter(!country %in% "Taiwan") %>% 
+      dplyr::mutate(
+        cases = ifelse(country %in% "Japan", 
+                       ifelse(date == "2020-02-05", 3, 
+                              ifelse(date == "2020-02-06", 2, cases)), cases)
+      )
 
 Get interventions
 -----------------
@@ -299,6 +330,23 @@ Get interventions
 -   Plot overall interventions
 
 <!-- -->
+
+    interventions <- readr::read_csv("raw-data/intervention_dates.csv") %>% 
+      dplyr::select(date = date_intervention, intervention, country, social_distancing) %>% 
+      dplyr::mutate(date = date %>% 
+                      stringr::str_replace_all("/", "-")) %>% 
+      dplyr::mutate(date = as.Date(date)) %>% 
+      dplyr::mutate(country = country %>% 
+                      stringr::str_replace_all("south korea", "Republic of Korea") %>% 
+                      stringr::str_replace_all("Usa", "United States") %>%
+                      stringr::str_to_title() %>% 
+                      stringr::str_replace_all("Usa", "United States") %>% 
+                      stringr::str_replace_all("Republic Of Korea", "Republic of Korea")) %>% 
+      dplyr::mutate(intervention = intervention %>% 
+                      stringr::str_replace_all("_", " ") %>% 
+                      stringr::str_to_sentence() %>%
+                      stringr::str_replace("School restictions", "School restrictions") %>% 
+                      stringr::str_replace("Communciation distancing", "Communication distancing"))
 
     ## Warning: Missing column names filled in: 'X8' [8]
 
@@ -313,6 +361,29 @@ Get interventions
     ##   ref2 = col_character(),
     ##   X8 = col_character()
     ## )
+
+    summarise_ints <- function(df) {
+      df %>% 
+      dplyr::select(-date) %>% 
+      dplyr::group_by(country, intervention) %>% 
+      dplyr::slice(1) %>% 
+      dplyr::ungroup() %>% 
+      dplyr::count(intervention) %>% 
+      tidyr::drop_na(intervention) %>% 
+      dplyr::arrange(desc(n)) %>% 
+      dplyr::select(Intervention = intervention, 
+                    `Countries that have implemented` = n)
+    }
+
+
+    summarise_interventions <- interventions %>% 
+      summarise_ints()
+
+
+
+    saveRDS(summarise_interventions, "output-data/intervention_freq.rds")
+
+    knitr::kable(summarise_interventions)
 
 <table>
 <thead>
@@ -507,6 +578,16 @@ Get interventions
 
 -   Social interventions only
 
+<!-- -->
+
+    social_interventions <- interventions %>% 
+      dplyr::filter(social_distancing %in% "yes") %>% 
+      summarise_ints()
+
+    saveRDS(social_interventions, "output-data/social_interventions.rds")
+
+    knitr::kable(social_interventions)
+
 <table>
 <thead>
 <tr class="header">
@@ -611,6 +692,16 @@ Get interventions
 </table>
 
 -   Non-social interventions
+
+<!-- -->
+
+    non_social_interventions <- interventions %>% 
+      dplyr::filter(social_distancing %in% "no") %>% 
+      summarise_ints()
+
+    saveRDS(non_social_interventions, "output-data/non_social_interventions.rds")
+
+    knitr::kable(non_social_interventions)
 
 <table>
 <thead>
@@ -723,14 +814,52 @@ Get interventions
 
 <!-- -->
 
-    ## Warning: Removed 11 rows containing missing values (position_stack).
+    plot_interventions <- function(intervention_data , n = NULL, scales = "free_y") {
+      plot_df <- cases_in_countries %>% 
+      dplyr::left_join(interventions %>% 
+                         dplyr::filter(intervention %in% intervention_data[1:n]),
+                       by = c("date", "country")) %>% 
+      dplyr::group_by(country, date) %>% 
+      dplyr::mutate(cases = cases / dplyr::n())
+      
+      plot_df %>% 
+      ggplot2::ggplot(ggplot2::aes(x = date, y = cases, col= intervention)) +
+      ggplot2::geom_vline(data = tidyr::drop_na(plot_df, intervention),
+                          aes(xintercept = date, col = intervention), size = 1.2) +
+      ggplot2::geom_col(col = NA, alpha = 0.6) +
+      ggplot2::scale_fill_discrete(na.value = "grey") +
+      ggplot2::facet_wrap(~ country, scales = scales, ncol = 1) +
+      cowplot::theme_cowplot() +
+      labs(x = "Date", y = "Cases") +
+      theme(legend.position = "bottom") +
+      labs(col = "Intervention", fill = NULL)
+    }
 
-![](figures/unnamed-chunk-10-1.png)
+
+    plot_interventions(social_interventions$Intervention, 12, scales = "free_y")
+
+    ## Warning: Removed 8 rows containing missing values (position_stack).
+
+![](figures/social-all-time-1.png)
+
+    plot_interventions(social_interventions$Intervention, 12, scales = "free")
+
+    ## Warning: Removed 8 rows containing missing values (position_stack).
+
+![](figures/social-norm-time-1.png)
 
 -   Plot non-social interventions
 
 <!-- -->
 
-    ## Warning: Removed 11 rows containing missing values (position_stack).
+    plot_interventions(non_social_interventions$Intervention, 17, scales = "free_y")
 
-![](figures/unnamed-chunk-11-1.png)
+    ## Warning: Removed 8 rows containing missing values (position_stack).
+
+![](figures/non-social-all-time-1.png)
+
+    plot_interventions(non_social_interventions$Intervention, 17, scales = "free")
+
+    ## Warning: Removed 8 rows containing missing values (position_stack).
+
+![](figures/non-social-norm-time-1.png)

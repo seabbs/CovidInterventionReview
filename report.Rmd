@@ -5,7 +5,7 @@ date: "2020-02-02"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE,
+knitr::opts_chunk$set(echo = TRUE,
                       cache = FALSE, 
                       fig.path = "figures/")
 ```
@@ -33,13 +33,11 @@ source("functions/get_who_cases.R")
 ## Extract variables of potential interest from linelist
 
 ```{r extract-variables}
-extracted_linelist <- readr::read_csv("raw-data/linelist.csv") %>%
+extracted_linelist <- suppressMessages(readr::read_csv("raw-data/linelist.csv")) %>%
   dplyr::as_tibble() %>%
   dplyr::select(country, city, province, date_confirmation, travel_history_location) %>%
   dplyr::mutate(import_status = dplyr::if_else(is.na(travel_history_location) |
                                                  travel_history_location == "", "local", "imported"))
-
-extracted_linelist 
 ```
 
 
@@ -61,7 +59,7 @@ prop_cases_imported <- extracted_linelist %>%
 
 * Based on linelist data and WH0 sit reps
 
-```{r}
+```{r, message = FALSE}
 countries <- prop_cases_imported$country
 names(countries) <- prop_cases_imported$country
 
@@ -82,7 +80,9 @@ total_cases <- country_cases %>%
 prop_cases_imported_who <- prop_cases_imported %>% 
   dplyr::full_join(total_cases, by = "country") %>% 
   dplyr::mutate(who_frac_imported = round(imported / who_total, 2)) %>% 
-  dplyr::arrange(desc(who_frac_imported))
+  dplyr::arrange(desc(who_frac_imported)) %>% 
+  ## Drop USA and thailand
+  dplyr::filter(!country %in% c("United States", "Thailand", "Iran"))
 ```
 
 
@@ -103,8 +103,10 @@ knitr::kable(tab_cases_imported)
 
 
 * Wrangle for countries of interest (with at least 40 cases)
+
 ```{r}
-cum_cases_in_countries <- readr::read_csv("raw-data/countries_of_interest_counts.csv")
+cum_cases_in_countries <- readr::read_csv("raw-data/countries_of_interest_counts.csv") %>% 
+    dplyr::filter(!country %in% c("United States", "Thailand", "Iran"))
 ```
 
 
@@ -137,17 +139,6 @@ cases_in_countries <- cases_in_countries %>%
                    ifelse(date == "2020-02-05", 3, 
                           ifelse(date == "2020-02-06", 2, cases)), cases)
   )
-```
-
-* Plot curves in countries of interest
-
-```{r, fig.height = 8, fig.width = 12, dpi = 320}
-cases_in_countries %>% 
-  ggplot2::ggplot(ggplot2::aes(x = date, y = cases)) +
-  ggplot2::geom_col() +
-  ggplot2::facet_wrap(~ country, scales = "free", ncol = 3) +
-  cowplot::theme_cowplot() +
-  labs(x = "Date", y = "Cases")
 ```
 
 
@@ -225,8 +216,8 @@ knitr::kable(non_social_interventions)
 
 * Plot social interventions
 
-```{r, fig.height = 8, fig.width = 12, dpi = 320}
-plot_interventions <- function(intervention_data , n = NULL) {
+```{r social-all-time, fig.height = 12, fig.width = 12, dpi = 320}
+plot_interventions <- function(intervention_data , n = NULL, scales = "free_y") {
   plot_df <- cases_in_countries %>% 
   dplyr::left_join(interventions %>% 
                      dplyr::filter(intervention %in% intervention_data[1:n]),
@@ -240,7 +231,7 @@ plot_interventions <- function(intervention_data , n = NULL) {
                       aes(xintercept = date, col = intervention), size = 1.2) +
   ggplot2::geom_col(col = NA, alpha = 0.6) +
   ggplot2::scale_fill_discrete(na.value = "grey") +
-  ggplot2::facet_wrap(~ country, scales = "free", ncol = 3) +
+  ggplot2::facet_wrap(~ country, scales = scales, ncol = 1) +
   cowplot::theme_cowplot() +
   labs(x = "Date", y = "Cases") +
   theme(legend.position = "bottom") +
@@ -248,16 +239,21 @@ plot_interventions <- function(intervention_data , n = NULL) {
 }
 
 
-plot_interventions(social_interventions$Intervention, 12)
+plot_interventions(social_interventions$Intervention, 12, scales = "free_y")
 ```
 
+```{r social-norm-time, fig.height = 12, fig.width = 12, dpi = 320}
+plot_interventions(social_interventions$Intervention, 12, scales = "free")
+```
 
 
 
 * Plot non-social interventions
 
-```{r, fig.height = 8, fig.width = 12, dpi = 320}
-plot_interventions(non_social_interventions$Intervention, 17)
+```{r non-social-all-time, fig.height = 12, fig.width = 12, dpi = 320}
+plot_interventions(non_social_interventions$Intervention, 17, scales = "free_y")
 ```
 
-
+```{r non-social-norm-time, fig.height = 12, fig.width = 12, dpi = 320}
+plot_interventions(non_social_interventions$Intervention, 17, scales = "free")
+```
