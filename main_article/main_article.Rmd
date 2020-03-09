@@ -129,7 +129,31 @@ ADD FIGURE
 ```{r table S1}
 df <- readr::read_csv("../Tables/Table_S1.csv")
 
-df %>% flextable::flextable(cwidth = 2) %>% 
+df %>% flextable::flextable(cwidth = 3) %>% 
   flextable::theme_vanilla() %>%
   fontsize(size = 10)
 ```
+
+
+```{r figs1, fig.cap="Supplemental figure 1: Cases numbers by date of report for the ten countries with the highest number of cases outside of mainland China as reported by WHO (taken from the WHO situational reports and from Hubei Health Commission press releases). Note cases in Japan do not include the international conveyance. Bar fill is related to the introduction of non-pharmaceutical interventions other than social distancing."}
+
+knitr::include_graphics("../figures/social-all-time-1.png")
+
+```
+
+## Data Dictionary
+
+a) Contact Tracing:  Identifying individuals who might have been in contact with a confirmed case 
+
+b) Isolation: Separation of ill persons with contagious diseases from non-infected persons 
+
+c) Quarantine: Restriction of persons who are presumed to have been exposed to a contagious disease but are not ill, either because they did not become infected or because they are still in the incubation period 
+
+d) School Closures. Closure of schools across a region or nation-wide. This is distinct from reactive closure of schools in response to an identified case.
+
+e) Workplace Closure and Measures. Closure of workplaces and advisories to work remotely.
+
+f) Crowding: Advisories to avoid crowded places such as concerts. This includes mandatory cancellations of mass gatherings such as conferences, weddings, funerals etc.
+
+g) University closure. Regional or nationwide closure of universities 
+
