@@ -101,7 +101,7 @@ Assessing travel restrictions, Tian et al. examined the impact of quarantine and
 df <- readr::read_csv("../Tables/Table_1.csv")
 
 df %>% flextable::flextable(cwidth = 1.5) %>% 
-  flextable::theme_vanilla() %>%
+  flextable::theme_zebra() %>%
   flextable::merge_v(j = "Postulated mechanism of impact" ) %>%
   fontsize(size = 10)
 ```
@@ -130,7 +130,7 @@ ADD FIGURE
 df <- readr::read_csv("../Tables/Table_S1.csv")
 
 df %>% flextable::flextable(cwidth = 3) %>% 
-  flextable::theme_vanilla() %>%
+  flextable::theme_zebra() %>%
   fontsize(size = 10)
 ```
 
