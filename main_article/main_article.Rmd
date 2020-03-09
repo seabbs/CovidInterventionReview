@@ -17,10 +17,10 @@ author:
       institute: lshtm
   - Yang Liu:
       institute: lshtm
-  - Neil Ferguson:
+  - Neil M. Ferguson:
       institute: imp
 institute:
-  - imp: Imperial College London, London, UK
+  - imp: MRC Centre for Global Infectious Disease Analysis, Imperial College London, London, UK
   - lshtm: London School of Hygiene, London, UK
   - joint: These authors contributed equally.
 date: "`r format(Sys.time(), '%d %B, %Y')`"
