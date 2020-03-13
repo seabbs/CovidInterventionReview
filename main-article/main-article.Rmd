@@ -46,10 +46,11 @@ bibliography: main-article-bib.bib
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
-library(dplyr)
-library(magrittr)
-library(readr)
-library(flextable)
+## Get required packages - managed using pacman
+if (!require(pacman)) install.packages("pacman"); library(pacman)
+p_load("dplyr")
+p_load("readr")
+p_load("flextable")
 ```
 
 # Summary
