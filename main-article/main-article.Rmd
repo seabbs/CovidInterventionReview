@@ -124,7 +124,7 @@ At the time of analysis, the most commonly implemented social distancing measure
 
 **Table 2: Summary of social distancing interventions implemented in Wuhan City, China and the 8 countries or regions1 reporting the highest number of COVID-19 cases. Countries and regions considered here are: Hong Kong, Italy, Japan, Singapore, South Korea and Wuhan. Many countries have been implementing quarantine measures of travellers. [The number refers to countries or regions where we have identified exact dates of implementation].**
 ```{r table2}
-df <- readr::read_csv("../Tables/Table_1.csv")
+df <- readr::read_csv("../tables/table-1.csv")
 
 df %>% flextable::flextable(cwidth = 1.5) %>% 
   flextable::theme_zebra() %>%
@@ -172,7 +172,7 @@ ADD FIGURE
 
 **Supplemental table 1: Table of common non-social distancing interventions in the eight countries/regions with the highest number of cases outside of mainland China and Wuhan City, China.**
 ```{r table S1}
-df <- readr::read_csv("../Tables/Table_S1.csv")
+df <- readr::read_csv("../tables/table-S1.csv")
 
 df %>% flextable::flextable(cwidth = 3) %>% 
   flextable::theme_zebra() %>%
