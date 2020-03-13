@@ -39,7 +39,7 @@ output:
 link-citations: yes
 linkcolor: blue
 csl: iso690-numeric-brackets-cs.csl
-bibliography: main_article_bib.bib
+bibliography: main-article-bib.bib
 ---
 
 
