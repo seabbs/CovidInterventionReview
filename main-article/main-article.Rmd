@@ -53,6 +53,17 @@ p_load("readr")
 p_load("flextable")
 ```
 
+# Abstract
+
+## Background
+
+## Methods
+
+## Results
+
+## Conclusions
+
+
 # Summary
 
 - School closures, remote working and quarantine have been the most common social
@@ -81,7 +92,7 @@ or nationally, are likely to have greater impact on reducing the potential epide
 
 # Introduction
 
-As of the `r format(Sys.Date(), "%d/%b/%2020")`, over XXXX cases of coronavirus disease (COVID-19) have been confirmed globally across XX countries [REF1, possibly WHO SitRep]. Sustained human-to-human transmission have now been observed in multiple countries or regions outside of mainland China such as Italy, Japan, and South Korea with XXX, XXX, and XXX cases reported, respectively by XXXX [REF2]. Conversely, some countries such as Bangladesh are only now reporting their first cases of COVID-19 resulting from importations of infected travellers from affected areas [REF3]. In response, countries and regions have implemented a wide range of non-pharmaceutical interventions (NPIs). These NPIs have generally been scaled up over time in response to the magnitude of the outbreak in each country [REF4]. Non-pharmaceutical interventions can be broadly categorised into: i) personal protective measures such as hand hygiene; ii) environmental measures such as disinfection and ventilation; iii) social distancing measures such as school and workplace closures; and iv) travel related measures such as travel restrictions [@pand_flu]. As the first cases were exported from Wuhan to countries and regions outside mainland China, early efforts focused on containment where infected individuals were rapidly identified and isolated [REF5]. Contact tracing and active case finding efforts then identified any contacts potentially at risk of infection who were themselves isolated or monitored. Containment efforts thus focused on stopping transmission completely to prevent any community transmission [@anderson2020will]. As case numbers increased and evidence of community transmission became apparent, countries and regions started to introduce a wider range of control measures including travel restrictions, improving public awareness through mass communication, widening surveillance efforts, distributing face masks, and social distancing measures [REF6].
+As of the 13th of March, over 135,000 cases of coronavirus disease (COVID-19) have been confirmed globally across 130 countries/regions [@WorldHealthOrganization:sitrep]. Sustained human-to-human transmission have now been observed in multiple countries outside of mainland China such as Italy, Japan, and South Korea with 15,113, 639, and 7,869 cases reported, respectively [@WorldHealthOrganization:sitrep]. Conversely, some countries such as Bangladesh are only now reporting their first cases of COVID-19 resulting from importations of infected travellers from affected areas. In response, countries and regions have implemented a wide range of non-pharmaceutical interventions (NPIs). These NPIs have generally been scaled up over time in response to the magnitude of the outbreak in each country [REF4]. Non-pharmaceutical interventions can be broadly categorised into: i) personal protective measures such as hand hygiene; ii) environmental measures such as disinfection and ventilation; iii) social distancing measures such as school and workplace closures; and iv) travel related measures such as travel restrictions [@pand_flu]. As the first cases were exported from Wuhan to countries and regions outside mainland China, early efforts focused on containment where infected individuals were rapidly identified and isolated [REF5]. Contact tracing and active case finding efforts then identified any contacts potentially at risk of infection who were themselves isolated or monitored. Containment efforts thus focused on stopping transmission completely to prevent any community transmission [@anderson2020will]. As case numbers increased and evidence of community transmission became apparent, countries and regions started to introduce a wider range of control measures including travel restrictions, improving public awareness through mass communication, widening surveillance efforts, distributing face masks, and social distancing measures [REF6].
 
 Social distancing (SD) measures can be effective control measures in outbreak settings [REF7]. These can be broadly defined as: i) isolation, the separation of ill individuals from non-infected individuals; ii) quarantine, the separation of individuals who have been assumed to be exposed and; iii) community containment, an intervention applied to an entire community aimed at reducing contacts and movements including school and workplace closures and restrictions or cancellation of mass gatherings [@wilder]. Social distancing measures are intended to reduce mixing and rates of contact between individuals in the community, therefore reducing rates of potential transmission to the susceptible population [REF8].
 
