@@ -52,35 +52,18 @@ library(readr)
 library(flextable)
 ```
 
-# Summary
+# Abstract
 
-- School closures, remote working and quarantine have been the most common social
-distancing interventions applied for COVID-19 to date.
+A number of non-pharmaceutical interventions have been implemented across the world to control the COVID-19 pandemic. Social distancing (SD) interventions applied so far have included school closures, remote working and quarantine. These measures have been shown to have large impacts for other pandemic diseases such as influenza. However, there has been comparatively little examination of the measures for COVID-19. 
 
-- Symptomatic COVID-19 cases thus far have been disproportionately reported amongst
-the elderly population compared to children - it is unclear whether school closures will
-have the same benefits as have been shown for pandemic influenza.
+We examine the existing literature, and collate data, on implementation of non-pharmaceutical interventions (NPIs) to examine their effects on the COVID-19 pandemic so far. For example, symptomatic cases have thus far been mainly reported in the elderly; as such, it is unclear whether school closures will have the same benefits as shown for pandemic influenza. Other measures such as travel restrictions have been implemented in multiple countries and been proven to slow geographic spread and reduce initial case numbers. However, the timely implementation of such measures is key to their success and must strike a balance between early enough application to reduce the peak of the epidemic and ensuring that they can be feasible maintained for an appropriate duration. Such measures can have large societal impacts and they need to appropriately justified to the population. 
 
-- Travel restrictions have been widely implemented and found to be effective at slowing
-geographic spread by a few days and reducing initial case numbers.
+We find that, due to relatively sparse information on the differences with and without interventions, it is difficult to assess the efficacy of many interventions. Similarly, whilst the comparison to other pandemic diseases such as influenza can be helpful, there are key differences that could effect the efficacy of similar NPIs. As the pandemic of COVID-19 progresses, it will become feasible to quantify the impact of interventions which will be a vital consideration for future pandemic preparedness. 
 
-- Timely implementation of control measures will have a greater impact on the COVID-19
-epidemic, but the early lifting of control measures could lead to an increase in case
-numbers, as shown for influenza control. At this stage, data on this for COVID-19 are still
-sparse.
-
-- A number of non-pharmaceutical interventions have been implemented at this point of
-time, most stringently in China. The assessment of these measures has been limited,
-especially concerning more recent interventions such as school closures. In many
-countries, it is too early to evaluate the effect of interventions.
-
-- Empirical and modelling studies of pandemic influenza suggest that measures
-implemented at an earlier stage of the epidemic (compared to later stages), either locally
-or nationally, are likely to have greater impact on reducing the potential epidemic size.
 
 # Introduction
 
-As of the `r format(Sys.Date(), "%d/%b/%2020")`, over XXXX cases of coronavirus disease (COVID-19) have been confirmed globally across XX countries [REF1, possibly WHO SitRep]. Sustained human-to-human transmission have now been observed in multiple countries or regions outside of mainland China such as Italy, Japan, and South Korea with XXX, XXX, and XXX cases reported, respectively by XXXX [REF2]. Conversely, some countries such as Bangladesh are only now reporting their first cases of COVID-19 resulting from importations of infected travellers from affected areas [REF3]. In response, countries and regions have implemented a wide range of non-pharmaceutical interventions (NPIs). These NPIs have generally been scaled up over time in response to the magnitude of the outbreak in each country [REF4]. Non-pharmaceutical interventions can be broadly categorised into: i) personal protective measures such as hand hygiene; ii) environmental measures such as disinfection and ventilation; iii) social distancing measures such as school and workplace closures; and iv) travel related measures such as travel restrictions [@pand_flu]. As the first cases were exported from Wuhan to countries and regions outside mainland China, early efforts focused on containment where infected individuals were rapidly identified and isolated [REF5]. Contact tracing and active case finding efforts then identified any contacts potentially at risk of infection who were themselves isolated or monitored. Containment efforts thus focused on stopping transmission completely to prevent any community transmission [@anderson2020will]. As case numbers increased and evidence of community transmission became apparent, countries and regions started to introduce a wider range of control measures including travel restrictions, improving public awareness through mass communication, widening surveillance efforts, distributing face masks, and social distancing measures [REF6].
+As of the `r format(Sys.Date(), "%d/%b/%2020")`, over 138,000 cases of coronavirus disease (COVID-19) have been confirmed globally across 132 countries [REF1, possibly WHO SitRep]. Sustained human-to-human transmission have now been observed in multiple countries or regions outside of mainland China such as Italy, Japan, and South Korea with XXX, XXX, and XXX cases reported, respectively by XXXX [REF2]. Conversely, some countries such as Bangladesh are only now reporting their first cases of COVID-19 resulting from importations of infected travellers from affected areas [REF3]. In response, countries and regions have implemented a wide range of non-pharmaceutical interventions (NPIs). These NPIs have generally been scaled up over time in response to the magnitude of the outbreak in each country [REF4]. Non-pharmaceutical interventions can be broadly categorised into: i) personal protective measures such as hand hygiene; ii) environmental measures such as disinfection and ventilation; iii) social distancing measures such as school and workplace closures; and iv) travel related measures such as travel restrictions [@pand_flu]. As the first cases were exported from Wuhan to countries and regions outside mainland China, early efforts focused on containment where infected individuals were rapidly identified and isolated [REF5]. Contact tracing and active case finding efforts then identified any contacts potentially at risk of infection who were themselves isolated or monitored. Containment efforts thus focused on stopping transmission completely to prevent any community transmission [@anderson2020will]. As case numbers increased and evidence of community transmission became apparent, countries and regions started to introduce a wider range of control measures including travel restrictions, improving public awareness through mass communication, widening surveillance efforts, distributing face masks, and social distancing measures [REF6].
 
 Social distancing (SD) measures can be effective control measures in outbreak settings [REF7]. These can be broadly defined as: i) isolation, the separation of ill individuals from non-infected individuals; ii) quarantine, the separation of individuals who have been assumed to be exposed and; iii) community containment, an intervention applied to an entire community aimed at reducing contacts and movements including school and workplace closures and restrictions or cancellation of mass gatherings [@wilder]. Social distancing measures are intended to reduce mixing and rates of contact between individuals in the community, therefore reducing rates of potential transmission to the susceptible population [REF8].
 
