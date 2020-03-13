@@ -107,7 +107,6 @@ df <- data.frame(
 
 
 df %>% flextable::flextable(cwidth = 3) %>% align()
-
 ```
 
 ## Potential effectiveness of social distancing measures
@@ -134,9 +133,7 @@ df %>% flextable::flextable(cwidth = 1.5) %>%
 
 
 ```{r fig1, fig.cap="Figure 1: Number of cases by date of report for the 6 regions/countries with the highest number of cases outside of mainland China and Wuhan City as reported by WHO (taken from the WHO situational reports and Hubei Health Commission press releases). Note cases in Japan do not include the international conveyance. Each line represents the date of implementation of a social distancing measure. Note that some countries/regions had travel advice in place in response to the growing epidemic in China before the report of the first case in-country/ region. See supplementary information for NPIs other than SD."}
-
 knitr::include_graphics("../figures/social-all-time-1.png")
-
 ```
 
 # Discussion
@@ -183,9 +180,7 @@ df %>% flextable::flextable(cwidth = 3) %>%
 
 
 ```{r figs1, fig.cap="Supplemental figure 1: Cases numbers by date of report for the ten countries with the highest number of cases outside of mainland China as reported by WHO (taken from the WHO situational reports and from Hubei Health Commission press releases). Note cases in Japan do not include the international conveyance. Bar fill is related to the introduction of non-pharmaceutical interventions other than social distancing."}
-
 knitr::include_graphics("../figures/social-all-time-1.png")
-
 ```
 
 ## Data Dictionary
