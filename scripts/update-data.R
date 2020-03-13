@@ -16,15 +16,6 @@ p_load("lubridate")
 
 source("functions/get_who_cases.R")
 
-# Update linelist ---------------------------------------------------------
-
-gsheets_url <- paste0("https://docs.google.com/spreadsheets/d/1itaohdPiAeniCXNlntNztZ_oRvjh0HsGuJXUJWET008")
-url <- paste0(gsheets_url, "/export?format=csv&gid=0")
-
-linelist <- data.table::fread(url)
-
-readr::write_csv(linelist, "raw-data/linelist.csv")
-
 # Update country of interest case counts ----------------------------------
 
 who_cases <- get_who_cases() %>% 
