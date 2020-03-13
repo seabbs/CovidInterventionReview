@@ -1,52 +1,5 @@
 
 
-## Plot cases over time
-
-
-* Wrangle for countries of interest (with at least 40 cases)
-
-```{r}
-cum_cases_in_countries <- readr::read_csv("raw-data/countries_of_interest_counts.csv") %>% 
-    dplyr::filter(!country %in% c("United States", "Thailand", "Iran"))
-```
-
-
-* Get date of first report
-
-```{r}
-first_cases <- cum_cases_in_countries %>% 
-  dplyr::group_by(country) %>% 
-  dplyr::filter(cases > 0) %>% 
-  dplyr::filter(cases == min(cases), date == min(date)) %>% 
-  dplyr::ungroup() %>% 
-  dplyr::arrange(date) %>% 
-  dplyr::select(Country = country, `Date of first case report` = date)
-
-first_cases %>% 
-  knitr::kable()
-```
-
-* Get case counts
-
-```{r}
-cases_in_countries <- cum_cases_in_countries %>% 
-  dplyr::group_by(country) %>% 
-  ## Cumulative?
-  dplyr::mutate(cases = cases - dplyr::lag(cases)) %>% 
-  dplyr::ungroup()
-
-cases_in_countries <- cases_in_countries %>% 
-  dplyr::filter(!country %in% "Taiwan") %>% 
-  dplyr::mutate(
-    cases = ifelse(country %in% "Japan", 
-                   ifelse(date == "2020-02-05", 3, 
-                          ifelse(date == "2020-02-06", 2, cases)), cases)
-  ) %>% 
-  dplyr::mutate(country = country %>% 
-                  factor(levels = first_cases$Country))
-```
-
-
 ## Get interventions
 
 

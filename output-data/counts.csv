@@ -44,6 +44,13 @@ date,country,cases
 2020-03-03,Republic of Korea,4812
 2020-03-04,Republic of Korea,5328
 2020-03-05,Republic of Korea,5766
+2020-03-06,Republic of Korea,6284
+2020-03-07,Republic of Korea,6767
+2020-03-08,Republic of Korea,7134
+2020-03-09,Republic of Korea,7382
+2020-03-10,Republic of Korea,7513
+2020-03-11,Republic of Korea,7755
+2020-03-12,Republic of Korea,7869
 2020-01-20,Japan,1
 2020-01-21,Japan,1
 2020-01-23,Japan,1
@@ -89,6 +96,13 @@ date,country,cases
 2020-03-03,Japan,268
 2020-03-04,Japan,284
 2020-03-05,Japan,317
+2020-03-06,Japan,349
+2020-03-07,Japan,408
+2020-03-08,Japan,455
+2020-03-09,Japan,488
+2020-03-10,Japan,514
+2020-03-11,Japan,568
+2020-03-12,Japan,620
 2020-01-20,Singapore,0
 2020-01-21,Singapore,0
 2020-01-23,Singapore,0
@@ -134,96 +148,13 @@ date,country,cases
 2020-03-03,Singapore,108
 2020-03-04,Singapore,110
 2020-03-05,Singapore,110
-2020-01-20,Thailand,2
-2020-01-21,Thailand,2
-2020-01-23,Thailand,4
-2020-01-24,Thailand,4
-2020-01-25,Thailand,4
-2020-01-26,Thailand,5
-2020-01-27,Thailand,5
-2020-01-28,Thailand,14
-2020-01-29,Thailand,14
-2020-01-30,Thailand,14
-2020-01-31,Thailand,14
-2020-02-01,Thailand,19
-2020-02-02,Thailand,19
-2020-02-03,Thailand,19
-2020-02-04,Thailand,19
-2020-02-05,Thailand,25
-2020-02-06,Thailand,25
-2020-02-07,Thailand,25
-2020-02-08,Thailand,32
-2020-02-09,Thailand,32
-2020-02-10,Thailand,32
-2020-02-11,Thailand,33
-2020-02-12,Thailand,33
-2020-02-13,Thailand,33
-2020-02-14,Thailand,33
-2020-02-15,Thailand,34
-2020-02-16,Thailand,34
-2020-02-17,Thailand,35
-2020-02-18,Thailand,35
-2020-02-19,Thailand,35
-2020-02-20,Thailand,35
-2020-02-21,Thailand,35
-2020-02-22,Thailand,35
-2020-02-23,Thailand,35
-2020-02-24,Thailand,35
-2020-02-25,Thailand,37
-2020-02-26,Thailand,40
-2020-02-27,Thailand,40
-2020-02-28,Thailand,40
-2020-02-29,Thailand,42
-2020-03-01,Thailand,42
-2020-03-02,Thailand,42
-2020-03-03,Thailand,43
-2020-03-04,Thailand,43
-2020-03-05,Thailand,47
-2020-01-20,United States,0
-2020-01-21,United States,0
-2020-01-23,United States,1
-2020-01-24,United States,1
-2020-01-25,United States,2
-2020-01-26,United States,2
-2020-01-27,United States,5
-2020-01-28,United States,5
-2020-01-29,United States,5
-2020-01-30,United States,5
-2020-01-31,United States,6
-2020-02-01,United States,7
-2020-02-02,United States,8
-2020-02-03,United States,11
-2020-02-04,United States,11
-2020-02-05,United States,11
-2020-02-06,United States,12
-2020-02-07,United States,12
-2020-02-08,United States,12
-2020-02-09,United States,12
-2020-02-10,United States,12
-2020-02-11,United States,13
-2020-02-12,United States,13
-2020-02-13,United States,14
-2020-02-14,United States,15
-2020-02-15,United States,15
-2020-02-16,United States,15
-2020-02-17,United States,15
-2020-02-18,United States,15
-2020-02-19,United States,15
-2020-02-20,United States,15
-2020-02-21,United States,15
-2020-02-22,United States,35
-2020-02-23,United States,35
-2020-02-24,United States,35
-2020-02-25,United States,53
-2020-02-26,United States,53
-2020-02-27,United States,59
-2020-02-28,United States,59
-2020-02-29,United States,62
-2020-03-01,United States,62
-2020-03-02,United States,62
-2020-03-03,United States,64
-2020-03-04,United States,108
-2020-03-05,United States,129
+2020-03-06,Singapore,117
+2020-03-07,Singapore,130
+2020-03-08,Singapore,138
+2020-03-09,Singapore,150
+2020-03-10,Singapore,160
+2020-03-11,Singapore,166
+2020-03-12,Singapore,178
 2020-01-20,Italy,0
 2020-01-21,Italy,0
 2020-01-23,Italy,0
@@ -269,51 +200,13 @@ date,country,cases
 2020-03-03,Italy,2036
 2020-03-04,Italy,2502
 2020-03-05,Italy,3089
-2020-01-20,Iran,0
-2020-01-21,Iran,0
-2020-01-23,Iran,0
-2020-01-24,Iran,0
-2020-01-25,Iran,0
-2020-01-26,Iran,0
-2020-01-27,Iran,0
-2020-01-28,Iran,0
-2020-01-29,Iran,0
-2020-01-30,Iran,0
-2020-01-31,Iran,0
-2020-02-01,Iran,0
-2020-02-02,Iran,0
-2020-02-03,Iran,0
-2020-02-04,Iran,0
-2020-02-05,Iran,0
-2020-02-06,Iran,0
-2020-02-07,Iran,0
-2020-02-08,Iran,0
-2020-02-09,Iran,0
-2020-02-10,Iran,0
-2020-02-11,Iran,0
-2020-02-12,Iran,0
-2020-02-13,Iran,0
-2020-02-14,Iran,0
-2020-02-15,Iran,0
-2020-02-16,Iran,0
-2020-02-17,Iran,0
-2020-02-18,Iran,0
-2020-02-19,Iran,0
-2020-02-20,Iran,2
-2020-02-21,Iran,5
-2020-02-22,Iran,18
-2020-02-23,Iran,28
-2020-02-24,Iran,43
-2020-02-25,Iran,61
-2020-02-26,Iran,95
-2020-02-27,Iran,141
-2020-02-28,Iran,245
-2020-02-29,Iran,388
-2020-03-01,Iran,593
-2020-03-02,Iran,978
-2020-03-03,Iran,1501
-2020-03-04,Iran,2336
-2020-03-05,Iran,2922
+2020-03-06,Italy,3858
+2020-03-07,Italy,4636
+2020-03-08,Italy,5883
+2020-03-09,Italy,7375
+2020-03-10,Italy,9172
+2020-03-11,Italy,10149
+2020-03-12,Italy,12462
 2020-01-20,Taiwan,NA
 2020-01-21,Taiwan,1
 2020-01-23,Taiwan,NA
@@ -359,6 +252,13 @@ date,country,cases
 2020-03-03,Taiwan,NA
 2020-03-04,Taiwan,NA
 2020-03-05,Taiwan,NA
+2020-03-06,Taiwan,NA
+2020-03-07,Taiwan,NA
+2020-03-08,Taiwan,NA
+2020-03-09,Taiwan,NA
+2020-03-10,Taiwan,NA
+2020-03-11,Taiwan,NA
+2020-03-12,Taiwan,NA
 2020-01-20,Hong Kong,NA
 2020-01-21,Hong Kong,NA
 2020-01-23,Hong Kong,1
@@ -404,6 +304,13 @@ date,country,cases
 2020-03-03,Hong Kong,101
 2020-03-04,Hong Kong,100
 2020-03-05,Hong Kong,104
+2020-03-06,Hong Kong,104
+2020-03-07,Hong Kong,107
+2020-03-08,Hong Kong,109
+2020-03-09,Hong Kong,114
+2020-03-10,Hong Kong,115
+2020-03-11,Hong Kong,120
+2020-03-12,Hong Kong,129
 2020-01-14,Wuhan,0
 2020-01-15,Wuhan,41
 2020-01-16,Wuhan,45
