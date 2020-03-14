@@ -7,7 +7,7 @@ plot_interventions <- function(cases = NULL, interventions = NULL,
 
   
   # jitter interventions by a day if stacked
-  intervention_df <- interventions %>%
+  interventions <- interventions %>%
     group_by(country, date) %>%
     dplyr::mutate(new_date = date +
                    lubridate::days((dplyr::n() - 1))) %>%
