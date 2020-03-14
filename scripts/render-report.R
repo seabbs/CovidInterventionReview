@@ -1,9 +1,9 @@
 message("Rendering output to all formats")
 ## Render to analysis to required output formats
 
-output_formats <- c("html_document", "pdf_document", "md_document", "word_document")
+output_formats <- c("word_document")
 
-docs_to_render <- c("report.Rmd")
+docs_to_render <- c("main-article/main-article.Rmd")
 
 for (format in output_formats) {
   for (doc in docs_to_render) {

@@ -8,6 +8,7 @@ p_load("tidyr")
 p_load("tibble")
 p_load("lubridate")
 p_load("stringr")
+p_load("readr")
 
 
 # Get functions -----------------------------------------------------------
@@ -66,8 +67,5 @@ cum_cases_in_countries <- cum_cases_in_countries %>%
   dplyr::filter(!country %in% c("United States", "Thailand", "Iran"))
 
 readr::write_csv(cum_cases_in_countries, "raw-data/cumulative-counts.csv")
-
-
-
 
 

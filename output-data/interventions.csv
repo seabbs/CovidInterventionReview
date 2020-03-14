@@ -1,122 +1,130 @@
-date,intervention,country,social_distancing,intervention_cat,intervention_scale
-2020-03-02,Containment to mitigation,Republic of Korea,no,Other,Other
-2020-01-17,Raise awareness flights,Japan,no,Travel,Advice
-2020-01-03,Government on alert,Republic of Korea,no,Surveillance,Other
-NA,Government on alert,Republic of Korea,no,Surveillance,Other
-2020-02-21,Social distancing misc,Republic of Korea,yes,Other,Other
-2020-01-22,Raise awareness flights,Japan,no,Travel,Advice
-2020-01-23,Raise awareness flights,Japan,no,Travel,Advice
-2020-01-24,Raise awareness flights,Japan,no,Travel,Advice
-2020-02-12,Raise awareness flights,Japan,no,Travel,Advice
-2020-02-27,Quarantine,Republic of Korea,yes,Surveillance,Other
-2020-03-02,School closure,Japan,yes,Education,Closure
-2020-03-02,Reduced shop hours,Japan,yes,Other,Other
-2020-03-02,Remote working,Japan,yes,Workplace,Other
-2020-03-01,Mass gathering advisory,Japan,yes,Mass gathering,Advice
-2020-02-21,School closure,Republic of Korea,yes,Education,Closure
-2020-02-23,School closure,Republic of Korea,yes,Education,Closure
-2020-02-01,Travel ban,Japan,no,Travel,Restriction
-2020-02-13,Travel ban,Japan,no,Travel,Restriction
-2020-02-18,University closure,Republic of Korea,yes,Education,Closure
-2020-02-09,Social event cancellation,Republic of Korea,yes,Other,Other
-2020-02-22,Lockdown,Italy,yes,Lockdown,Other
-2020-02-22,School closure,Italy,yes,Education,Closure
-2020-02-22,University closure,Italy,yes,Education,Closure
-2020-02-22,Mass gathering cancellation,Italy,yes,Mass gathering,Other
-2020-02-25,Public information,Italy,no,Information,Other
-2020-02-24,Mandatory quarantine,Italy,yes,Surveillance,Other
-2020-02-25,School closure,Italy,yes,Education,Closure
-2020-03-01,Mandatory quarantine,Hong Kong,yes,Quarantine,Other
-2020-01-03,Surveillance,Hong Kong,no,Surveillance,Public health
-2020-01-02,Raise awareness healthcare staff,Hong Kong,no,Surveillance,Advice
-2020-01-02,Communication distancing,Hong Kong,yes,Information,Other
-2020-01-02,Communication general,Hong Kong,no,Information,Other
-2020-01-02,Isolation,Hong Kong,yes,Isolation,Public health
-2020-01-02,Raise awareness public,Hong Kong,no,Surveillance,Advice
-2020-01-06,Raise awareness healthcare staff,Hong Kong,no,Information,Advice
-2020-01-06,Surveillance,Hong Kong,no,Surveillance,Public health
-2020-01-06,Raise awareness public,Hong Kong,no,Information,Advice
-2020-01-06,Border control,Hong Kong,no,Travel,Other
-2020-01-06,Raise awareness public,Hong Kong,no,Information,Advice
-2020-01-06,Communication distancing,Hong Kong,yes,Information,Other
-2020-01-16,Surveillance,Hong Kong,no,Surveillance,Public health
-2020-01-16,Border control,Hong Kong,no,Travel,Other
-2020-01-16,Raise awareness public,Hong Kong,no,Information,Advice
-2020-01-22,School closure (not related to outbreak),Hong Kong,yes,Education,Closure
-2020-01-24,Border control,Hong Kong,no,Travel,Other
-2020-01-24,Border control,Hong Kong,no,Travel,Other
-2020-01-24,Surveillance,Hong Kong,no,Surveillance,Public health
-2020-01-24,Raise awareness public,Hong Kong,no,Information,Advice
-2020-01-24,Quarantine,Hong Kong,yes,Quarantine,Other
-2020-01-24,Prevention measures school,Hong Kong,yes,Education,Other
-2020-01-24,Supply,Hong Kong,no,Other,Other
-2020-01-24,Travel advice,Hong Kong,no,Travel,Other
-2020-01-24,Travel advice,Hong Kong,yes,Travel,Other
-2020-01-24,Surveillance,Hong Kong,no,Surveillance,Public health
-2020-01-24,Border control,Hong Kong,no,Travel,Other
-2020-01-30,Quarantine,Hong Kong,yes,Quarantine,Other
-2020-01-31,Communication distancing,Hong Kong,yes,Information,Other
-2020-01-29,Remote working,Hong Kong,yes,Surveillance,Other
-2020-01-29,Border control,Hong Kong,no,Travel,Other
-2020-01-31,Quarantine,Hong Kong,yes,Quarantine,Other
-2020-02-08,Border control,Hong Kong,no,Travel,Other
-2020-02-04,Border control,Hong Kong,no,Travel,Other
-2020-02-01,Suspending flights,Hong Kong,no,Travel,Other
-2020-02-01,Social event cancellation,Hong Kong,yes,Other,Other
-2020-02-02,Mass gathering cancellation,Hong Kong,yes,Mass gathering,Other
-2020-03-02,Resumption public services,Hong Kong,no,Surveillance,Other
-2020-02-08,Mandatory quarantine,Hong Kong,yes,Quarantine,Other
-2020-02-08,Social event cancellation,Hong Kong,yes,Other,Other
-2020-02-25,Mandatory quarantine,Hong Kong,yes,Quarantine,Other
-2020-02-25,Medical surveillance,Hong Kong,no,Surveillance,Public health
-2020-03-01,Mandatory quarantine,Hong Kong,yes,Quarantine,Other
-2020-01-03,Health screening,Singapore,no,Healthcare,Other
-2020-01-22,Health screening,Singapore,no,Healthcare,Other
-2020-01-23,Contact tracing,Singapore,yes,Surveillance,Public health
-2020-01-22,Travel advisory,Singapore,no,Travel,Advice
-2020-01-23,Travel advisory,Singapore,no,Travel,Advice
-2020-01-29,Travel restriction,Singapore,no,Travel,Other
-2020-02-01,Travel restriction,Singapore,no,Travel,Other
-2020-02-26,Travel restriction,Singapore,no,Travel,Other
-2020-02-04,School restrictions,Singapore,yes,Education,Other
-2020-02-04,Health screening,Singapore,no,Healthcare,Other
-2020-02-04,Health screening,Singapore,no,Surveillance,Other
-2020-02-04,Healthcare restrictions,Singapore,yes,Healthcare,Other
-2020-02-18,Quarantine,Singapore,yes,Quarantine,Other
-2020-01-31,Quarantine,Singapore,yes,Quarantine,Other
-2020-02-18,Strengthening primary care response,Singapore,no,Surveillance,Other
-2020-02-28,Remote working,Italy,yes,Workplace,Other
-2020-02-23,Health screening,Italy,no,Healthcare,Other
-2020-01-01,Decontamination,Wuhan,no,Other,Other
-2020-01-08,School closure (not related to outbreak),Wuhan,yes,Education,Closure
-2020-01-15,School closure (not related to outbreak),Wuhan,yes,Education,Closure
-2020-01-20,School closure (not related to outbreak),Wuhan,yes,Education,Closure
-2020-01-20,Enhanced care,Wuhan,no,Healthcare,Other
-2020-01-21,Health screening,Wuhan,no,Surveillance,Other
-2020-01-21,Government announcement,Wuhan,no,Other,Other
-2020-01-22,Health screening,Wuhan,no,Healthcare,Other
-2020-01-23,Travel restriction,Wuhan,no,Travel,Other
-2020-01-24,Work closure (not related to outbreak),Wuhan,yes,Surveillance,Closure
-2020-01-24,Travel restriction,Wuhan,yes,Travel,Other
-2020-01-25,Enhanced care,Wuhan,no,Healthcare,Other
-2020-02-04,Enhanced care,Wuhan,no,Healthcare,Other
-2020-02-05,Enhanced care,Wuhan,no,Surveillance,Other
-2020-02-06,Health screening,Wuhan,no,Healthcare,Other
-2020-02-16,Enhanced care,Wuhan,no,Healthcare,Other
-2020-02-20,[Extension] school and work closure,Wuhan,yes,Education,Closure
-2020-01-23,Lockdown,Wuhan,yes,Surveillance,Other
-2020-01-23,Work closure (not related to outbreak),Taiwan,yes,Workplace,Closure
-2020-01-18,School closure (not related to outbreak),Taiwan,yes,Education,Closure
-2020-01-26,Travel restriction,Taiwan,no,Travel,Other
-2020-02-02,Travel restriction,Taiwan,no,Travel,Other
-2020-02-05,Travel restriction,Taiwan,no,Travel,Other
-2020-02-06,Travel restriction,Taiwan,no,Travel,Other
-2020-02-22,Travel restriction,Taiwan,no,Travel,Other
-2020-02-24,Travel restriction,Taiwan,no,Travel,Other
-2020-02-25,Travel restriction,Taiwan,no,Travel,Other
-2020-02-25,Travel restriction,Taiwan,no,Travel,Other
-2020-03-01,Travel restriction,Taiwan,no,Travel,Other
-2020-03-02,Health screening,Taiwan,no,Surveillance,Other
-2020-02-27,School closure,Italy,yes,Education,Closure
-2020-02-27,University closure,Italy,yes,Education,Closure
-2020-02-23,University closure,Italy,yes,Education,Closure
+date,intervention,type,Enforced,social_distancing,Scale,country
+2020-01-01,Decontamination,Workplace closures,yes,no,Local,Wuhan
+2020-01-15,School closure (not related to outbreak),University closures,yes,yes,National,Wuhan
+2020-01-15,School closure (not related to outbreak),School closures,yes,yes,National,Wuhan
+2020-01-20,School closure (not related to outbreak),School closures,yes,yes,National,Wuhan
+2020-01-20,Enhanced care,Enhanced care,yes,no,Local,Wuhan
+2020-01-21,Health screening,Surveillance,no,no,Local,Wuhan
+2020-01-21,Government announcement,Public comms,yes,no,Local,Wuhan
+2020-01-22,Health screening,Surveillance,yes,no,Local,Wuhan
+2020-01-23,Travel restriction,Travel restrictions,yes,no,Local,Wuhan
+2020-01-23,Lockdown,Travel restrictions,yes,no,Local,Wuhan
+2020-01-23,Lockdown,Crowding,yes,yes,Local,Wuhan
+2020-01-24,Work closure (not related to outbreak),Workplace closures,yes,yes,Local,Wuhan
+2020-01-24,Travel restriction,Travel restrictions,yes,yes,Local,Wuhan
+2020-01-25,Enhanced care,Enhanced care,yes,no,Local,Wuhan
+2020-02-04,Enhanced care,Enhanced care,yes,no,Local,Wuhan
+2020-02-05,Enhanced care,Enhanced care,yes,no,Local,Wuhan
+2020-02-06,Health screening,Surveillance,yes,no,Local,Wuhan
+2020-02-16,Enhanced care,Enhanced care,yes,no,Local,Wuhan
+2020-01-03,Government on alert,Quarantine,yes,no,National,Republic of Korea
+2020-02-09,Social event cancellation,Crowding,yes,yes,National,Republic of Korea
+2020-02-18,University closure,University closures,yes,yes,National,Republic of Korea
+2020-02-21,Social distancing misc,Workplace closures,yes,yes,Local,Republic of Korea
+2020-02-21,School closure,School closures,yes,yes,Local,Republic of Korea
+2020-02-23,School closure,School closures,yes,yes,National,Republic of Korea
+2020-02-27,Quarantine,Quarantine,yes,yes,National,Republic of Korea
+2020-03-02,Containment to mitigation,Public comms,no,no,National,Republic of Korea
+2020-02-23,Government on alert,Public comms,yes,no,National,Republic of Korea
+2020-01-16,Contact tracing,Contact tracing,yes,yes,National,Japan
+2020-01-17,Raise awareness flights,Public comms,no,no,National,Japan
+2020-01-22,Raise awareness flights,Public comms,no,no,National,Japan
+2020-01-23,Raise awareness flights,Public comms,no,no,National,Japan
+2020-01-24,Raise awareness flights,Public comms,no,no,National,Japan
+2020-02-01,Travel ban,Travel restrictions,no,no,National,Japan
+2020-02-12,Raise awareness flights,Public comms,no,no,National,Japan
+2020-02-13,Travel ban,Travel restrictions,no,no,National,Japan
+2020-02-26,Mass gathering cancellation,Crowding,yes,yes,Local,Japan
+2020-02-27,School closure,School closures,yes,yes,Local,Japan
+2020-02-28,Isolation,Crowding,no,yes,Local,Japan
+2020-03-01,Mass gathering advisory,Crowding,no,yes,National,Japan
+2020-03-02,School closure,School closures,yes,yes,National,Japan
+2020-03-02,Reduced shop hours,Workplace closures,no,yes,National,Japan
+2020-03-02,Remote working,Workplace closures,no,yes,Local,Japan
+2020-03-03,Remote working,Workplace closures,no,yes,Local,Japan
+2020-03-03,Remote working,Workplace closures,no,yes,Local,Japan
+2020-03-07,Isolation,Crowding,no,yes,Local,Japan
+2020-03-08,Mass gathering cancellation,Crowding,yes,yes,National,Japan
+2020-03-09,Self quarantine,Quarantine,no,yes,National,Japan
+2020-03-09,Travel ban,Travel restrictions,yes,no,National,Japan
+2020-01-02,Raise awareness healthcare staff,Public comms,no,no,National,Hong Kong
+2020-01-02,Communication distancing,Public comms,no,yes,National,Hong Kong
+2020-01-02,Communication general,Public comms,no,no,National,Hong Kong
+2020-01-02,Isolation,Isolation,yes,yes,National,Hong Kong
+2020-01-02,Raise awareness public,Surveillance,no,no,National,Hong Kong
+2020-01-03,Surveillance,Surveillance,no,no,National,Hong Kong
+2020-01-06,Raise awareness healthcare staff,Public comms,no,no,National,Hong Kong
+2020-01-06,Surveillance,Surveillance,no,no,National,Hong Kong
+2020-01-06,Raise awareness public,Public comms,no,no,National,Hong Kong
+2020-01-06,Border control,Surveillance,yes,no,National,Hong Kong
+2020-01-06,Raise awareness public,Public comms,no,no,National,Hong Kong
+2020-01-06,Communication distancing,Public comms,no,yes,National,Hong Kong
+2020-01-16,Surveillance,Surveillance,no,no,National,Hong Kong
+2020-01-16,Border control,Surveillance,yes,no,National,Hong Kong
+2020-01-16,Raise awareness public,Public comms,no,no,National,Hong Kong
+2020-01-22,School closure (not related to outbreak),NA,yes,yes,National,Hong Kong
+2020-01-24,Border control,Surveillance,yes,no,National,Hong Kong
+2020-01-24,Border control,Surveillance,yes,no,National,Hong Kong
+2020-01-24,Surveillance,Surveillance,no,no,National,Hong Kong
+2020-01-24,Raise awareness public,Public comms,no,no,National,Hong Kong
+2020-01-24,Quarantine,Quarantine,yes,yes,Local,Hong Kong
+2020-01-24,Prevention measures school,School closures,no,yes,National,Hong Kong
+2020-01-24,Supply,PPE,no,no,National,Hong Kong
+2020-01-24,Travel advice,Public comms,yes,no,National,Hong Kong
+2020-01-24,Travel advice,Public comms,no,yes,National,Hong Kong
+2020-01-24,Surveillance,Surveillance,no,no,National,Hong Kong
+2020-01-24,Border control,Surveillance,no,no,National,Hong Kong
+2020-01-29,Remote working,Workplace closures,yes,yes,National,Hong Kong
+2020-01-29,Border control,Surveillance,yes,no,National,Hong Kong
+2020-01-30,Quarantine,Quarantine,no,yes,National,Hong Kong
+2020-01-31,Communciation distancing,Public comms,no,yes,National,Hong Kong
+2020-01-31,Quarantine,Quarantine,yes,yes,National,Hong Kong
+2020-02-01,Suspending flights,Travel restriction,yes,no,National,Hong Kong
+2020-02-01,Social event cancellation,Crowding,yes,yes,Local,Hong Kong
+2020-02-02,Mass gathering cancellation,Crowding,yes,yes,Local,Hong Kong
+2020-02-04,Border control,Travel restriction,yes,no,National,Hong Kong
+2020-02-08,Border control,Travel restriction,yes,no,National,Hong Kong
+2020-02-08,Mandatory quarantine,Quarantine,yes,yes,National,Hong Kong
+2020-02-08,Social event cancellation,Crowding,no,yes,National,Hong Kong
+2020-02-25,Mandatory quarantine,Quarantine,yes,yes,National,Hong Kong
+2020-02-25,Medical surveillance,Surveillance,yes,no,National,Hong Kong
+2020-03-01,Mandatory quarantine,Quarantine,yes,yes,National,Hong Kong
+2020-03-01,Mandatory quarantine,Quarantine,yes,yes,National,Hong Kong
+2020-03-02,Resumption public services,NA,yes,no,National,Hong Kong
+2020-03-05,Public services,NA,yes,no,National,Hong Kong
+2020-03-02,Social event cancellation,Crowding,yes,yes,Local,Hong Kong
+2020-03-04,Mandatory quarantine,Quarantine,yes,yes,Local,Hong Kong
+2020-03-04,Mandatory quarantine,Quarantine,yes,yes,Local,Hong Kong
+2020-03-03,Surveillance,Surveillance,yes,no,National,Hong Kong
+2020-01-03,Health screening,Surveillance,yes,no,National,Singapore
+2020-01-22,Health screening,Surveillance,yes,no,National,Singapore
+2020-01-22,Travel advisory,Public comms,no,no,National,Singapore
+2020-01-23,Contact tracing,Contact tracing,yes,yes,National,Singapore
+2020-01-23,Travel advisory,Public comms,no,no,National,Singapore
+2020-01-29,Travel restriction,Travel restrictions,yes,no,National,Singapore
+2020-01-31,Quarantine,Quarantine,yes,yes,National,Singapore
+2020-02-01,Travel restriction,Travel restrictions,yes,no,National,Singapore
+2020-02-04,School restictions,School closures,no,yes,National,Singapore
+2020-02-04,Health screening,Surveillance,no,no,National,Singapore
+2020-02-04,Health screening,Surveillance,yes,no,National,Singapore
+2020-02-04,Healthcare restrictions,Crowding,yes,yes,National,Singapore
+2020-02-18,Quarantine,Quarantine,yes,yes,National,Singapore
+2020-02-18,Strengthening primary care response,Surveillance,yes,no,National,Singapore
+2020-02-26,Travel restriction,Travel restrictions,yes,no,National,Singapore
+2020-01-23,Isolation of sick/exposed,Isolation,yes,yes,National,Singapore
+2020-02-07,Government on alert,Public comms,no,no,National,Singapore
+2020-02-22,Lockdown,Crowding,yes,yes,Local,Italy
+2020-02-22,School closure,School closures,yes,yes,Local,Italy
+2020-02-22,University closure,University closures,yes,yes,National,Italy
+2020-02-22,Mass gathering cancellation,Crowding,yes,yes,National,Italy
+2020-02-23,Health screening,Surveillance,no,no,Local,Italy
+2020-02-23,University closure,University closures,yes,yes,Local,Italy
+2020-02-24,Mandatory quarantine,Quarantine,yes,yes,Local,Italy
+2020-02-25,Public information,Public comms,yes,no,National,Italy
+2020-02-25,School closure,School closures,yes,yes,Local,Italy
+2020-02-27,School closure,School closures,yes,yes,Local,Italy
+2020-02-27,University closure,University closures,yes,yes,Local,Italy
+2020-02-28,Remote working,Workplace closures,yes,yes,National,Italy
+2020-03-04,School closure,School closures,yes,yes,National,Italy
+2020-03-07,Mass gathering cancellation,Crowding,yes,yes,Local,Italy
+2020-03-08,Lockdown,Quarantine,yes,yes,Local,Italy
