@@ -32,7 +32,8 @@ readr::write_csv(first_cases, "output-data/first-cases.csv")
 cases_in_countries <- cum_cases_in_countries %>% 
   dplyr::group_by(country) %>% 
   dplyr::mutate(cases = cases - dplyr::lag(cases)) %>% 
-  dplyr::ungroup()
+  dplyr::ungroup() %>% 
+  dplyr::mutate(cases = ifelse(cases < 0 , 0, cases))
 
 cases_in_countries <- cases_in_countries %>% 
   dplyr::filter(!country %in% "Taiwan") %>% 
