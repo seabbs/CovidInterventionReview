@@ -98,14 +98,14 @@ Social distancing measures have been implemented to different degrees by countri
 
 At the time of analysis, the most commonly implemented SD measures in Wuhan (Hubei, China) and the five countries and regions reporting the highest COVID-19 case numbers outside of mainland China, were school closures followed by remote working and quarantine. Table 2 summarises the SD measures and the potential effects on community mixing patterns. We found a substantial variation in the timing and type of SD measures adopted by different countries and regions outside of mainland China. Notably, Singapore had implemented some partial SD measures even before the first in-country COVID-19 case was reported. We observed that countries affected most recently have implemented SD measures most rapidly and in quick succession. There were also differences in the degree to which social distancing measures, such as school closures, have been implemented. For example, within weeks, school closures in Japan which were initially implemented locally in a few affected schools were preemptively extended to the entire nation [@japantimes]. We also observed that among non-social distancing measures, travel advisories and restrictions were the first NPIs implemented by each country or region (see Table S1 for the most common non-SD measures).
 
-**Table 2: Summary of social distancing interventions implemented in Wuhan City, China and the 8 countries or regions reporting the highest number of COVID-19 cases. Countries and regions considered here are: Hong Kong, Italy, Japan, Singapore, South Korea and Wuhan. Many countries have been implementing quarantine measures of travellers. [The number refers to countries or regions where we have identified exact dates of implementation].**
+**Table 2: Summary of social distancing interventions implemented in Wuhan City, China and the 5 countries or regions reporting the highest number of COVID-19 cases. Countries and regions considered here are: Hong Kong, Italy, Japan, Singapore, South Korea and Wuhan. Many countries have been implementing quarantine measures of travellers.**
 ```{r table2}
-df <- readr::read_csv("../tables/table-1.csv")
+df <- readr::read_csv("../output-data/summarised-social-distancing-ints.csv")
 
-df %>% flextable::flextable(cwidth = 1.5) %>% 
+df %>% flextable::flextable(cwidth = 1.5) %>%
   flextable::theme_zebra() %>%
-  flextable::merge_v(j = "Postulated mechanism of impact" ) %>%
-  fontsize(size = 10)
+  fontsize(size = 10) %>%
+  align(align="left", part = "all")
 ```
 
 
@@ -116,7 +116,7 @@ knitr::include_graphics("../figures/social-plot.png")
 
 # Discussion
 
-Social distancing measures have been implemented to different degrees by countries and regions affected by the COVID-19 pandemic. Interventions have been most stringent in Hubei province (China), where intensive travel restrictions have affected 40-60 million residents [@wu2020characteristics and @WHO]. Across other parts of China, extensive public health efforts including quarantine, cancellation of large gatherings, and travel restrictions have been implemented [@lai2020effect]. Outside of mainland China, countries and regions most affected by COVID-19 have or have started to introduce SD interventions in efforts to contain and limit the spread of COVID-19. For example, Singapore has conducted extensive contact tracing and quarantine measures for confirmed cases and Italy has enforced nationwide school closures [@guardian].
+Social distancing measures have been implemented to different degrees by countries and regions affected by the COVID-19 pandemic. Interventions have been most stringent in Hubei province (China), where intensive travel restrictions have affected 40-60 million residents [@wu2020characteristics; @WHO]. Across other parts of China, extensive public health efforts including quarantine, cancellation of large gatherings, and travel restrictions have been implemented [@lai2020effect]. Outside of mainland China, countries and regions most affected by COVID-19 have or have started to introduce SD interventions in efforts to contain and limit the spread of COVID-19. For example, Singapore has conducted extensive contact tracing and quarantine measures for confirmed cases and Italy has enforced nationwide school closures [@guardian].
 
 The timing and the degree to which SD measures have been implemented varied between the countries and regions we considered, but also globally. For example, some countries and regions such as the USA have implemented reactive and selective local school closures only, whereas Hong Kong, for similar cumulative case counts, has introduced a large number of voluntary (e.g. advice on avoiding crowded places) and mandatory (e.g. quarantine, contact tracing, wide-scale proactive school closures) SD measures [@hongkong]. It is important to note that most countries and regions have implemented isolation of cases, contact tracing and quarantine in response to the first imported cases from Hubei, China (Japan, Thailand, South Korea, USA, Singapore since mid- to late-January) [@hokkaido; @WorldHealthOrganization:sitrep]. Other countries have introduced interventions in response to a large number of newly reported cases (Italy and Iran) more recently (supplementary table 3) [@italy; @iran].
 
@@ -138,13 +138,14 @@ However, across all SD measures the most important consideration is the feasibil
 
 ## Interventions not related to social distancing
 
-**Supplemental table 1: Table of common non-social distancing interventions in the eight countries/regions with the highest number of cases outside of mainland China and Wuhan City, China.**
+**Supplemental table 1: Table of common non-social distancing interventions in the five countries/regions with the highest number of cases outside of mainland China and Wuhan City, China.**
 ```{r table S1}
-df <- readr::read_csv("../tables/table-S1.csv")
+df <- readr::read_csv("../output-data/summarised-non-social-distancing-ints.csv")
 
-df %>% flextable::flextable(cwidth = 3) %>% 
+df %>% flextable::flextable(cwidth = 1.5) %>%
   flextable::theme_zebra() %>%
-  fontsize(size = 10)
+  fontsize(size = 10) %>%
+  align(align="left", part = "all")
 ```
 
 
