@@ -3,27 +3,18 @@
 
 ## Get required packages - managed using pacman
 if (!require(pacman)) install.packages("pacman"); library(pacman)
-p_load("data.table")
 p_load("dplyr")
 p_load("tidyr")
-p_load("purrr")
 p_load("tibble")
-p_load("ggplot2")
 p_load("lubridate")
+p_load("stringr")
+p_load("readr")
 
 
 # Get functions -----------------------------------------------------------
 
 source("functions/get_who_cases.R")
-
-# Update linelist ---------------------------------------------------------
-
-gsheets_url <- paste0("https://docs.google.com/spreadsheets/d/1itaohdPiAeniCXNlntNztZ_oRvjh0HsGuJXUJWET008")
-url <- paste0(gsheets_url, "/export?format=csv&gid=0")
-
-linelist <- data.table::fread(url)
-
-readr::write_csv(linelist, "raw-data/linelist.csv")
+source("functions/update_names.R")
 
 # Update country of interest case counts ----------------------------------
 
@@ -32,14 +23,6 @@ who_cases <- get_who_cases() %>%
   dplyr::mutate(date = as.Date(Date)) %>% 
   dplyr::select_if(~is.numeric(.) | lubridate::is.Date(.))
 
-update_country_names <- function(countries) {
-  countries %>% 
-    stringr::str_replace_all("RepublicofKorea", "Republic of Korea") %>% 
-    stringr::str_replace_all("UnitedStatesofAmerica", "United States") %>% 
-    stringr::str_replace_all("China-HongKongSAR", "Hong Kong") %>% 
-    stringr::str_replace_all("China-Hubei", "Wuhan") %>% 
-    stringr::str_replace_all("China-Taiwan", "Taiwan")
-}
 
 countries_of_interest <- who_cases %>% 
   dplyr::filter(SituationReport == max(SituationReport)) %>% 
@@ -49,7 +32,7 @@ countries_of_interest <- who_cases %>%
                                "Italy", "Iran", "Japan", "Singapore",
                                "Thailand", "China-Taiwan", "China-HongKongSAR", "China-Hubei")) %>% 
   dplyr::mutate(country = country %>% 
-                  update_country_names())
+                  update_names())
 
 cum_cases_in_countries <- who_cases %>% 
   dplyr::select(-SituationReport) %>% 
@@ -57,6 +40,10 @@ cum_cases_in_countries <- who_cases %>%
   dplyr::mutate(country = country %>% 
                   update_country_names()) %>% 
   dplyr::filter(country %in% countries_of_interest$country)
+
+
+# Get Wuhan counts --------------------------------------------------------
+
 
 wuhan <- readr::read_csv("raw-data/wuhan_20200303.csv") %>% 
   dplyr::rename(cases = total_case) %>% 
@@ -72,9 +59,13 @@ cum_cases_in_countries <- cum_cases_in_countries  %>%
                   factor(levels = countries_of_interest$country))
 
 
-readr::write_csv(cum_cases_in_countries, "raw-data/countries_of_interest_counts.csv")
+
+# Save counts -------------------------------------------------------------
 
 
-# Update intervention data ------------------------------------------------
+cum_cases_in_countries <- cum_cases_in_countries %>% 
+  dplyr::filter(!country %in% c("United States", "Thailand", "Iran"))
+
+readr::write_csv(cum_cases_in_countries, "raw-data/cumulative-counts.csv")
 
 

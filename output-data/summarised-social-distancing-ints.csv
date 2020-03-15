@@ -1,0 +1,10 @@
+Intervention type,Number of regions that have implemented,National (%),Enforced (%),Regions
+Crowding,6,33.3%,100%,"Hong Kong, Italy, Japan, Republic of Korea, Singapore, Wuhan"
+School closures,6,50%,66.7%,"Hong Kong, Italy, Japan, Republic of Korea, Singapore, Wuhan"
+Quarantine,5,60%,80%,"Hong Kong, Italy, Japan, Republic of Korea, Singapore"
+Workplace closures,5,60%,80%,"Hong Kong, Italy, Japan, Republic of Korea, Wuhan"
+University closures,3,100%,100%,"Italy, Republic of Korea, Wuhan"
+Contact tracing,2,100%,100%,"Japan, Singapore"
+Isolation,2,100%,100%,"Hong Kong, Singapore"
+Public comms,1,100%,0%,Hong Kong
+Travel restrictions,1,0%,100%,Wuhan

@@ -1,0 +1,309 @@
+date,country,cases
+2020-01-20,Republic of Korea,NA
+2020-01-21,Republic of Korea,0
+2020-01-23,Republic of Korea,0
+2020-01-24,Republic of Korea,1
+2020-01-25,Republic of Korea,0
+2020-01-26,Republic of Korea,0
+2020-01-27,Republic of Korea,2
+2020-01-28,Republic of Korea,0
+2020-01-29,Republic of Korea,0
+2020-01-30,Republic of Korea,0
+2020-01-31,Republic of Korea,7
+2020-02-01,Republic of Korea,1
+2020-02-02,Republic of Korea,3
+2020-02-03,Republic of Korea,0
+2020-02-04,Republic of Korea,1
+2020-02-05,Republic of Korea,2
+2020-02-06,Republic of Korea,5
+2020-02-07,Republic of Korea,1
+2020-02-08,Republic of Korea,0
+2020-02-09,Republic of Korea,3
+2020-02-10,Republic of Korea,0
+2020-02-11,Republic of Korea,1
+2020-02-12,Republic of Korea,0
+2020-02-13,Republic of Korea,0
+2020-02-14,Republic of Korea,0
+2020-02-15,Republic of Korea,0
+2020-02-16,Republic of Korea,1
+2020-02-17,Republic of Korea,1
+2020-02-18,Republic of Korea,1
+2020-02-19,Republic of Korea,20
+2020-02-20,Republic of Korea,53
+2020-02-21,Republic of Korea,100
+2020-02-22,Republic of Korea,142
+2020-02-23,Republic of Korea,256
+2020-02-24,Republic of Korea,161
+2020-02-25,Republic of Korea,214
+2020-02-26,Republic of Korea,284
+2020-02-27,Republic of Korea,505
+2020-02-28,Republic of Korea,571
+2020-02-29,Republic of Korea,813
+2020-03-01,Republic of Korea,586
+2020-03-02,Republic of Korea,476
+2020-03-03,Republic of Korea,600
+2020-03-04,Republic of Korea,516
+2020-03-05,Republic of Korea,438
+2020-03-06,Republic of Korea,518
+2020-03-07,Republic of Korea,483
+2020-03-08,Republic of Korea,367
+2020-03-09,Republic of Korea,248
+2020-03-10,Republic of Korea,131
+2020-03-11,Republic of Korea,242
+2020-03-12,Republic of Korea,114
+2020-01-20,Japan,NA
+2020-01-21,Japan,0
+2020-01-23,Japan,0
+2020-01-24,Japan,0
+2020-01-25,Japan,2
+2020-01-26,Japan,0
+2020-01-27,Japan,1
+2020-01-28,Japan,2
+2020-01-29,Japan,1
+2020-01-30,Japan,4
+2020-01-31,Japan,3
+2020-02-01,Japan,3
+2020-02-02,Japan,3
+2020-02-03,Japan,0
+2020-02-04,Japan,0
+2020-02-05,Japan,3
+2020-02-06,Japan,2
+2020-02-07,Japan,0
+2020-02-08,Japan,0
+2020-02-09,Japan,1
+2020-02-10,Japan,0
+2020-02-11,Japan,0
+2020-02-12,Japan,2
+2020-02-13,Japan,1
+2020-02-14,Japan,4
+2020-02-15,Japan,8
+2020-02-16,Japan,12
+2020-02-17,Japan,6
+2020-02-18,Japan,6
+2020-02-19,Japan,8
+2020-02-20,Japan,12
+2020-02-21,Japan,8
+2020-02-22,Japan,12
+2020-02-23,Japan,27
+2020-02-24,Japan,12
+2020-02-25,Japan,13
+2020-02-26,Japan,7
+2020-02-27,Japan,22
+2020-02-28,Japan,24
+2020-02-29,Japan,20
+2020-03-01,Japan,9
+2020-03-02,Japan,15
+2020-03-03,Japan,14
+2020-03-04,Japan,16
+2020-03-05,Japan,33
+2020-03-06,Japan,32
+2020-03-07,Japan,59
+2020-03-08,Japan,47
+2020-03-09,Japan,33
+2020-03-10,Japan,26
+2020-03-11,Japan,54
+2020-03-12,Japan,52
+2020-01-20,Singapore,NA
+2020-01-21,Singapore,0
+2020-01-23,Singapore,0
+2020-01-24,Singapore,1
+2020-01-25,Singapore,2
+2020-01-26,Singapore,1
+2020-01-27,Singapore,0
+2020-01-28,Singapore,3
+2020-01-29,Singapore,0
+2020-01-30,Singapore,3
+2020-01-31,Singapore,3
+2020-02-01,Singapore,3
+2020-02-02,Singapore,2
+2020-02-03,Singapore,0
+2020-02-04,Singapore,0
+2020-02-05,Singapore,6
+2020-02-06,Singapore,4
+2020-02-07,Singapore,2
+2020-02-08,Singapore,3
+2020-02-09,Singapore,7
+2020-02-10,Singapore,3
+2020-02-11,Singapore,2
+2020-02-12,Singapore,2
+2020-02-13,Singapore,3
+2020-02-14,Singapore,8
+2020-02-15,Singapore,9
+2020-02-16,Singapore,5
+2020-02-17,Singapore,3
+2020-02-18,Singapore,2
+2020-02-19,Singapore,4
+2020-02-20,Singapore,3
+2020-02-21,Singapore,1
+2020-02-22,Singapore,1
+2020-02-23,Singapore,3
+2020-02-24,Singapore,0
+2020-02-25,Singapore,1
+2020-02-26,Singapore,1
+2020-02-27,Singapore,2
+2020-02-28,Singapore,3
+2020-02-29,Singapore,2
+2020-03-01,Singapore,4
+2020-03-02,Singapore,4
+2020-03-03,Singapore,2
+2020-03-04,Singapore,2
+2020-03-05,Singapore,0
+2020-03-06,Singapore,7
+2020-03-07,Singapore,13
+2020-03-08,Singapore,8
+2020-03-09,Singapore,12
+2020-03-10,Singapore,10
+2020-03-11,Singapore,6
+2020-03-12,Singapore,12
+2020-01-20,Italy,NA
+2020-01-21,Italy,0
+2020-01-23,Italy,0
+2020-01-24,Italy,0
+2020-01-25,Italy,0
+2020-01-26,Italy,0
+2020-01-27,Italy,0
+2020-01-28,Italy,0
+2020-01-29,Italy,0
+2020-01-30,Italy,0
+2020-01-31,Italy,2
+2020-02-01,Italy,0
+2020-02-02,Italy,0
+2020-02-03,Italy,0
+2020-02-04,Italy,0
+2020-02-05,Italy,0
+2020-02-06,Italy,0
+2020-02-07,Italy,1
+2020-02-08,Italy,0
+2020-02-09,Italy,0
+2020-02-10,Italy,0
+2020-02-11,Italy,0
+2020-02-12,Italy,0
+2020-02-13,Italy,0
+2020-02-14,Italy,0
+2020-02-15,Italy,0
+2020-02-16,Italy,0
+2020-02-17,Italy,0
+2020-02-18,Italy,0
+2020-02-19,Italy,0
+2020-02-20,Italy,0
+2020-02-21,Italy,0
+2020-02-22,Italy,6
+2020-02-23,Italy,67
+2020-02-24,Italy,48
+2020-02-25,Italy,105
+2020-02-26,Italy,93
+2020-02-27,Italy,78
+2020-02-28,Italy,250
+2020-02-29,Italy,238
+2020-03-01,Italy,240
+2020-03-02,Italy,561
+2020-03-03,Italy,347
+2020-03-04,Italy,466
+2020-03-05,Italy,587
+2020-03-06,Italy,769
+2020-03-07,Italy,778
+2020-03-08,Italy,1247
+2020-03-09,Italy,1492
+2020-03-10,Italy,1797
+2020-03-11,Italy,977
+2020-03-12,Italy,2313
+2020-01-20,Hong Kong,NA
+2020-01-21,Hong Kong,NA
+2020-01-23,Hong Kong,NA
+2020-01-24,Hong Kong,1
+2020-01-25,Hong Kong,3
+2020-01-26,Hong Kong,0
+2020-01-27,Hong Kong,3
+2020-01-28,Hong Kong,0
+2020-01-29,Hong Kong,0
+2020-01-30,Hong Kong,2
+2020-01-31,Hong Kong,2
+2020-02-01,Hong Kong,1
+2020-02-02,Hong Kong,1
+2020-02-03,Hong Kong,1
+2020-02-04,Hong Kong,0
+2020-02-05,Hong Kong,3
+2020-02-06,Hong Kong,3
+2020-02-07,Hong Kong,3
+2020-02-08,Hong Kong,2
+2020-02-09,Hong Kong,0
+2020-02-10,Hong Kong,10
+2020-02-11,Hong Kong,6
+2020-02-12,Hong Kong,7
+2020-02-13,Hong Kong,1
+2020-02-14,Hong Kong,3
+2020-02-15,Hong Kong,3
+2020-02-16,Hong Kong,0
+2020-02-17,Hong Kong,1
+2020-02-18,Hong Kong,3
+2020-02-19,Hong Kong,2
+2020-02-20,Hong Kong,3
+2020-02-21,Hong Kong,3
+2020-02-22,Hong Kong,0
+2020-02-23,Hong Kong,2
+2020-02-24,Hong Kong,4
+2020-02-25,Hong Kong,7
+2020-02-26,Hong Kong,4
+2020-02-27,Hong Kong,6
+2020-02-28,Hong Kong,2
+2020-02-29,Hong Kong,1
+2020-03-01,Hong Kong,1
+2020-03-02,Hong Kong,3
+2020-03-03,Hong Kong,3
+2020-03-04,Hong Kong,0
+2020-03-05,Hong Kong,4
+2020-03-06,Hong Kong,0
+2020-03-07,Hong Kong,3
+2020-03-08,Hong Kong,2
+2020-03-09,Hong Kong,5
+2020-03-10,Hong Kong,1
+2020-03-11,Hong Kong,5
+2020-03-12,Hong Kong,9
+2020-01-14,Wuhan,NA
+2020-01-15,Wuhan,41
+2020-01-16,Wuhan,4
+2020-01-17,Wuhan,17
+2020-01-18,Wuhan,59
+2020-01-19,Wuhan,77
+2020-01-21,Wuhan,165
+2020-01-22,Wuhan,81
+2020-01-23,Wuhan,51
+2020-01-24,Wuhan,77
+2020-01-25,Wuhan,46
+2020-01-26,Wuhan,80
+2020-01-27,Wuhan,892
+2020-01-28,Wuhan,315
+2020-01-29,Wuhan,356
+2020-01-30,Wuhan,378
+2020-01-31,Wuhan,576
+2020-02-01,Wuhan,894
+2020-02-02,Wuhan,1033
+2020-02-03,Wuhan,1242
+2020-02-04,Wuhan,1967
+2020-02-05,Wuhan,1766
+2020-02-06,Wuhan,1501
+2020-02-07,Wuhan,1985
+2020-02-08,Wuhan,1379
+2020-02-09,Wuhan,1920
+2020-02-10,Wuhan,1552
+2020-02-11,Wuhan,1104
+2020-02-12,Wuhan,13436
+2020-02-13,Wuhan,2997
+2020-02-14,Wuhan,1923
+2020-02-15,Wuhan,1548
+2020-02-16,Wuhan,1690
+2020-02-17,Wuhan,1600
+2020-02-18,Wuhan,1660
+2020-02-19,Wuhan,615
+2020-02-20,Wuhan,319
+2020-02-21,Wuhan,314
+2020-02-22,Wuhan,541
+2020-02-23,Wuhan,406
+2020-02-24,Wuhan,464
+2020-02-25,Wuhan,370
+2020-02-26,Wuhan,383
+2020-02-27,Wuhan,313
+2020-02-28,Wuhan,420
+2020-02-29,Wuhan,565
+2020-03-01,Wuhan,193
+2020-03-02,Wuhan,111
