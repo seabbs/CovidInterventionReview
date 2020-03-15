@@ -16,6 +16,15 @@ source("functions/plot_interventions.R")
 
 cases <- readr::read_csv("output-data/counts.csv")
 interventions <- readr::read_csv("output-data/interventions.csv")
+first_cases <- readr::read_csv("output-data/first-cases.csv")
+
+cases <- cases %>% 
+  dplyr::mutate(country = country %>% 
+                  factor(levels = first_cases$Country))
+
+interventions <- interventions %>% 
+  dplyr::mutate(country = country %>% 
+                  factor(levels = first_cases$Country))
 
 # Make plots --------------------------------------------------------------
 
