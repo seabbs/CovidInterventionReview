@@ -133,14 +133,9 @@ However, across all SD measures the most important consideration is the feasibil
 
 We thank Prof John Edmunds (LSHTM) and Prof Christl Donnelly (Imperial College London and University of Oxford) for their comments and insights in improving the manuscript.
 
-
-# References
-
-<div id="refs"></div>
-
 # Data availability
 
-## Underlying data and sourcecode
+## Underlying data and source code
 
 GitHub: https://github.com/seabbs/CovidIntervnetionReview
 
@@ -151,6 +146,12 @@ output-data/first-cases.csv: Date of first notified case by countries/regions co
 output-data/interventions.csv: A compiled list of categorised interventions in the countries/regions considered.
 output-data/summarised-non-social-distancing-ints.csv: Summary of non-social distancing measures.
 output-data/summarised-social-distancing-ints.csv: Summary of social distancing measures.
+
+# References
+
+<div id="refs"></div>
+
+
 
 # Supplementary information
 
