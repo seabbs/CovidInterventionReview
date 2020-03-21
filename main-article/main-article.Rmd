@@ -23,7 +23,6 @@ institute:
   - imp: MRC Centre for Global Infectious Disease Analysis, Imperial College London, London, UK
   - lshtm: Centre for Mathematical Modelling of Infectious Diseases, London School of Hygiene & Tropical Medicine, London, UK
   - joint: These authors contributed equally.
-date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   word_document:
     reference_docx: Styles.docx
@@ -58,9 +57,9 @@ p_load("flextable")
 
 Several non-pharmaceutical interventions (NPIs) have been implemented across the world to control the coronavirus disease (COVID-19) pandemic. Social distancing (SD) interventions applied so far have included school closures, remote working and quarantine. These measures have been shown to have large impacts on pandemic influenza transmission. However, there has been comparatively little examination of such measures for COVID-19. 
 
-We examine the existing literature, and collate data, on implementation of NPIs to examine their effects on the COVID-19 pandemic so far. For example, symptomatic cases have thus far been mainly reported in the elderly; as such, it is unclear whether school closures will have the same benefits as shown for pandemic influenza. Other measures such as travel restrictions have been implemented in multiple countries and appears to have slowed the geographic spread of COVID-19 and reduced initial case numbers. However, the timely implementation of control measures is key to their success and must strike a balance between early enough application to reduce the peak of the epidemic and ensuring that they can be feasibly maintained for an appropriate duration. Such measures can have large societal impacts and they need to appropriately justified to the population. 
+We examine the existing literature, and collate data, on implementation of NPIs to examine their effects on the COVID-19 pandemic so far. Measures such as travel restrictions have been implemented in multiple countries and appears to have slowed the geographic spread of COVID-19 and reduced initial case numbers. However, the timely implementation of control measures is key to their success and must strike a balance between early enough application to reduce the peak of the epidemic and ensuring that they can be feasibly maintained for an appropriate duration. Such measures can have large societal impacts and they need to be appropriately justified to the population. 
 
-We find that, due to the relatively sparse information on the differences with and without interventions, it is difficult to quantitatively assess the efficacy of many interventions. Similarly, whilst the comparison to other pandemic diseases such as influenza can be helpful, there are key differences that could effect the efficacy of similar NPIs. As the pandemic of COVID-19 progresses, it quantifying the impact of interventions which will be a vital consideration for future pandemic preparedness. 
+We find that, due to the relatively sparse information on the differences with and without interventions, it is difficult to quantitatively assess the efficacy of many interventions. Similarly, whilst the comparison to other pandemic diseases such as influenza can be helpful, there are key differences that could affect the efficacy of similar NPIs. As the pandemic of COVID-19 progresses, quantifying the impact of interventions will be a vital consideration for the appropriate use of mitigation strategies. 
 
 
 # Introduction
