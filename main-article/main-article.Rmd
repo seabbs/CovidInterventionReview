@@ -129,15 +129,28 @@ Studies from pandemic influenza have also shown that the timing and duration of 
 
 However, across all SD measures the most important consideration is the feasibility of its long-term implementation. The most effective measures in terms of stopping transmission, for example the lockdown of entire cities as implemented in Hubei province, are also the most socially and economically disruptive [@anderson2020will]. As many measures start to be lifted across cities in China, as transmission has effectively been paused, we may observe a bounce-back effect. Countries and regions are therefore faced with the difficult task of balancing economically and socially sustainable and acceptable control measures which are likely to have the largest overall impact with the need to control growing case numbers.
 
+# Acknowledgements
+
+We thank Prof John Edmunds (LSHTM) and Prof Christl Donnelly (Imperial College London and University of Oxford) for their comments and insights in improving the manuscript.
+
 
 # References
 
 <div id="refs"></div>
 
-# Acknowledgements
+# Data availability
 
-We thank Prof John Edmunds (LSHTM) and Prof Christl Donnelly (Imperial College London and University of Oxford) for their comments and insights in improving the manuscript.
+## Underlying data and sourcecode
 
+GitHub: https://github.com/seabbs/CovidIntervnetionReview
+
+This project contains the following underlying data:
+
+output-data/counts.csv: Daily case counts for the countries/regions considered.
+output-data/first-cases.csv: Date of first notified case by countries/regions considered.
+output-data/interventions.csv: A compiled list of categorised interventions in the countries/regions considered.
+output-data/summarised-non-social-distancing-ints.csv: Summary of non-social distancing measures.
+output-data/summarised-social-distancing-ints.csv: Summary of social distancing measures.
 
 # Supplementary information
 
