@@ -1,6 +1,7 @@
 
 # Adoption and impact of non-pharmaceutical interventions for COVID-19
 
+This paper is now available online on Wellcome Open Research [here](https://wellcomeopenresearch.org/articles/5-59/v1)
 
 ## Usage
 
